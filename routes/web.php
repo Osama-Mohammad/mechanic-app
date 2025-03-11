@@ -28,6 +28,10 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
 Route::prefix('customer')->middleware('guest:customer')->group(function () {
     Route::get('/register/create', [CustomerController::class, 'create']);
     Route::post('/register/store', [CustomerController::class, 'store']);
+
+    Route::get('/profile/{id}', [CustomerController::class, 'ProfilePage']);
+    Route::get('/profile/edit/{id}', [CustomerController::class, 'EditProfile']);
+    Route::patch('/profile/edit/{id}', [CustomerController::class, 'UpdateProfile']);
 });
 
 Route::prefix('mechanic')->middleware('guest:mechanic')->group(function () {
