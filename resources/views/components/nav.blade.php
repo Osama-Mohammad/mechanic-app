@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-tools me-2"></i> Mechanic App
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav">
+                <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                <a class="nav-link" href="/mechanics"><i class="fas fa-map-marker-alt me-1"></i> Find Mechanics</a>
+                <a class="nav-link" href="/bookings"><i class="fas fa-calendar-check me-1"></i> Bookings</a>
+                <a class="nav-link" href="/chat"><i class="fas fa-comments me-1"></i> Chat</a>
+
+                <!-- Show specific menu items based on the authenticated guard -->
+                @if (Auth::guard('admin')->check())
+                    <a class="nav-link" href="/dashboard"><i class="fas fa-user-shield me-1"></i> Admin Dashboard</a>
+                @endif
+
+                @if (Auth::guard('customer')->check())
+                    <a class="nav-link" href="/customer/home"><i class="fas fa-user me-1"></i> Customer Home</a>
+                @endif
+
+                @if (Auth::guard('mechanic')->check())
+                    <a class="nav-link" href="/mechanic/home"><i class="fas fa-user-cog me-1"></i> Mechanic Home</a>
+                @endif
+            </div>
+
+            <!-- Auth Buttons (Right Side) -->
+            <div class="navbar-nav ms-auto">
+                @if (Auth::guard('admin')->check() || Auth::guard('customer')->check() || Auth::guard('mechanic')->check())
+                    <form action="/logout" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-link text-white">
+                            <i class="fas fa-sign-out-alt me-1"></i> Log Out
+                        </button>
+                    </form>
+                @else
+                    <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
+                    <a class="nav-link" href="/register"><i class="fas fa-user-plus me-1"></i> Register</a>
+                @endif
+            </div>
+        </div>
+    </div>
+</nav>
