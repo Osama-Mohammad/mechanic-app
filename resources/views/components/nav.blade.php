@@ -19,14 +19,18 @@
                 <!-- Show specific menu items based on the authenticated guard -->
                 @if (Auth::guard('admin')->check())
                     <a class="nav-link" href="/dashboard"><i class="fas fa-user-shield me-1"></i> Admin Dashboard</a>
+                    <a class="nav-link" href="{{ route('admin_EditProfile', Auth::guard('admin')->user()) }}"><i
+                            class="fas fa-user me-1"></i> Admin Profile</a>
                 @endif
 
                 @if (Auth::guard('customer')->check())
-                    <a class="nav-link" href="/customer/home"><i class="fas fa-user me-1"></i> Customer Home</a>
+                    <a class="nav-link" href="/customer/profile/{{ Auth::guard('customer')->user()->id }}"><i
+                            class="fas fa-user me-1"></i> Customer Profile</a>
                 @endif
 
                 @if (Auth::guard('mechanic')->check())
-                    <a class="nav-link" href="/mechanic/home"><i class="fas fa-user-cog me-1"></i> Mechanic Home</a>
+                    <a class="nav-link" href="{{ route('mechanic_profilePage', Auth::guard('mechanic')->user()) }}"><i
+                            class="fas fa-user-cog me-1"></i> Mechanic Home</a>
                 @endif
             </div>
 
@@ -39,9 +43,9 @@
                             <i class="fas fa-sign-out-alt me-1"></i> Log Out
                         </button>
                     </form>
-                @else
+                    {{-- @else
                     <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
-                    <a class="nav-link" href="/register"><i class="fas fa-user-plus me-1"></i> Register</a>
+                    <a class="nav-link" href="/register"><i class="fas fa-user-plus me-1"></i> Register</a> --}}
                 @endif
             </div>
         </div>

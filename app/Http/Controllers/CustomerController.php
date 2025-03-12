@@ -36,4 +36,30 @@ class CustomerController extends Controller
         // return response()->json(['msg' => 'Added Successfully', 'customer' => $customer]);
         return back();
     }
+
+    public function ProfilePage($id)
+    {
+        $customer = Customer::find($id);
+        return view('Customer.profile', compact('customer'));
+    }
+
+    public function EditProfile($id)
+    {
+        $customer = Customer::find($id);
+        return view('Customer.edit', compact('customer'));
+    }
+
+    public function UpdateProfile($id)
+    {
+        $validated = request()->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:15|unique:customers,phone,' . $id,
+            'location' => 'required|string|max:255',
+            'email' => 'required|email|unique:customers,email,' . $id . '|unique:mechanics,email|unique:admins,email',
+        ]);
+        $customer = Customer::find($id);
+        $customer->update($validated);
+
+        return redirect('/customer/profile/' . $customer->id);
+    }
 }
