@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Mechanic;
 use Illuminate\Http\Request;
 
@@ -38,5 +39,27 @@ class MechanicController extends Controller
         $mechanic->save();
 
         return back();
+    }
+
+    public function ProfilePage(Mechanic $mechanic)
+    {
+        return view('Mechanic.profile', compact('mechanic'));
+    }
+
+    public function EditProfilePage(Mechanic $mechanic)
+    {
+        return view('Mechanic.edit', compact('mechanic'));
+    }
+
+    public function EditProfile(Mechanic $mechanic, Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|min:3',
+            'phone' => 'required|string|max:15|unique:customers,phone,' . $mechanic->id,
+            'email' => 'required|email|unique:customers,email|unique:admins,email|unique:mechanics,email,' . $mechanic->id,
+            'experience' => 'required|numeric'
+        ]);
+        $mechanic->update($validated);
+        return redirect()->route('mechanic_profilePage', compact('mechanic'));
     }
 }

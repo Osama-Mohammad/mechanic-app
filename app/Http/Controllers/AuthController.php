@@ -44,6 +44,6 @@ class AuthController extends Controller
         Auth::guard('mechanic')->logout();
         Auth::logout();
 
-        return back();
+        return redirect('/');
     }
 }
