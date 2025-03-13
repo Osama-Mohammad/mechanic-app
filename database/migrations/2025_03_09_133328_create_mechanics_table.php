@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('specialization');
             $table->integer('experience');
             $table->enum('availability', ['Available', 'Busy', 'Offline']);
-            $table->float(' ')->default(0);
+            $table->float('rating')->default(0);
             $table->timestamps();
         });
     }
