@@ -47,6 +47,25 @@
                                     @enderror
                                 </div>
 
+
+                                <div class="mb-3">
+                                    <label for="availability" class="form-label">Availability:</label>
+                                    <div class="input-group">
+                                        <select name="availability" id="availability"
+                                            class="form-control bg-dark text-light">
+                                            <option value="Available">Available</option>
+                                            <option value="Busy">Busy</option>
+                                            <option value="Offline">Offline</option>
+                                        </select>
+                                        <span class="input-group-text bg-dark border-dark">
+                                            <i class="fas fa-caret-down text-light"></i>
+                                        </span>
+                                    </div>
+                                    @error('availability')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-warning">Update</button>
                                 </div>

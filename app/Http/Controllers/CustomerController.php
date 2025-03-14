@@ -9,7 +9,10 @@ class CustomerController extends Controller
 {
     public function create()
     {
-        return view('Customer.create');
+        $cities = [
+            "Beirut","Tripoli","Sidon","Tyre","Zahle","Jounieh","Baalbek","Byblos","Batroun","Nabatieh","Bcharré","Keserwan","Chouf","Marjeyoun","Aley","Metn","Baabda","Hermel","Rashaya","Jbeil"
+                 ];
+        return view('Customer.create',compact('cities'));
     }
 
     public function store(Request $request)
@@ -19,7 +22,12 @@ class CustomerController extends Controller
             'phone' => 'required|string|unique:customers,phone|max:15',
             'location' => 'required|string|max:255',
             'email' => 'required|unique:customers,email|unique:mechanics,email|unique:admins,email|email',
-            'password' => 'required|min:8|confirmed'
+            'password' => [
+                'required',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ],
         ]);
 
         $customer = new Customer();

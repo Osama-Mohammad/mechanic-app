@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('phone')->unique();
             $table->string('specialization');
             $table->integer('experience');
-            $table->enum('availability', ['Available', 'Busy', 'Offline']);
+            $table->enum('availability', ['Available', 'Busy', 'Offline'])->default('Offline');
             $table->float('rating')->default(0);
             $table->timestamps();
         });

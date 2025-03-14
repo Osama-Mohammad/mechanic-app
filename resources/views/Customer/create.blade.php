@@ -1,122 +1,101 @@
+<x-layout>
+    <x-nav />
 
-    <x-layout>
-        <x-nav />
+    <style>
+        /* Custom CSS to make placeholder text visible */
+        .form-control::placeholder {
+            color: #ccc;
+            opacity: 1;
+        }
+    </style>
 
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card bg-secondary text-white">
-                        <div class="card-header bg-dark">
-                            <h3 class="card-title text-center">
-                                <i class="fas fa-tools"></i> Sign Up As Customer
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <form method="POST" action="/customer/register/store">
-                                @csrf
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name:</label>
-                                    <input type="text" id="name" name="name"
-                                        class="form-control bg-dark text-light">
-                                    @error('name')
-                                        {{ $message }}
-                                    @enderror
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card bg-secondary text-white">
+                    <div class="card-header bg-dark">
+                        <h3 class="card-title text-center">
+                            <i class="fas fa-tools"></i> Sign Up As Customer
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/customer/register/store">
+                            @csrf
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="name" class="form-label">Name:</label>
+                                <input type="text" id="name" name="name"
+                                    class="form-control bg-dark text-light" placeholder="Enter your full name">
+                                @error('name')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="phone" class="form-label">Phone:</label>
+                                <input type="text" id="phone" name="phone"
+                                    class="form-control bg-dark text-light" placeholder="Enter your phone number">
+                                @error('phone')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="location" class="form-label">Location:</label>
+                                <div class="input-group"> <!-- Input group to combine select and icon -->
+                                    <select name="location" class="form-control bg-dark text-light">
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city }}">{{ $city }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="input-group-text bg-dark border-dark">
+                                        <i class="fas fa-caret-down text-light"></i>
+                                    </span>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label">Phone:</label>
-                                    <input type="text" id="phone" name="phone"
-                                        class="form-control bg-dark text-light">
-                                    @error('phone')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="location" class="form-label">Location:</label>
-                                    <input type="text" id="location" name="location"
-                                        class="form-control bg-dark text-light">
-                                    @error('location')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email:</label>
-                                    <input type="text" id="email" name="email"
-                                        class="form-control bg-dark text-light">
-                                    @error('email')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password:</label>
-                                    <input type="text" id="password" name="password"
-                                        class="form-control bg-dark text-light">
-                                    @error('password')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password_confirmation" class="form-label">Confirm Password:</label>
-                                    <input type="text" id="password_confirmation" name="password_confirmation"
-                                        class="form-control bg-dark text-light">
-                                    @error('password_confirmation')
-                                        {{ $message }}
-                                    @enderror
-                                </div>
-                                <div class="d-grid">
-                                    <button id="btnAdd" type="submit" class="btn btn-warning">
-                                        <i class="fas fa-user-plus"></i> Create Customer
-                                    </button>
-                                </div>
-                            </form>
+                                @error('location')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="email" class="form-label">Email:</label>
+                                <input type="text" id="email" name="email"
+                                    class="form-control bg-dark text-light" placeholder="Enter your email address">
+                                @error('email')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="password" id="password" name="password"
+                                    class="form-control bg-dark text-light" placeholder="Create a password">
+                                <small class="form-text text-light">
+                                    Password must be at least 8 characters long and contain at least one letter, one
+                                    number, and one special character.
+                                </small>
+                                @error('password')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="password_confirmation" class="form-label">Confirm Password:</label>
+                                <input type="password" id="password_confirmation" name="password_confirmation"
+                                    class="form-control bg-dark text-light" placeholder="Confirm your password">
+                                @error('password_confirmation')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="d-grid mb-3"> <!-- Standardized margin-bottom -->
+                                <button id="btnAdd" type="submit" class="btn btn-warning">
+                                    <i class="fas fa-user-plus"></i> Create Customer
+                                </button>
+                            </div>
+                        </form>
+                        <div class="card-footer bg-dark text-center py-2">
+                            <p class="mb-1 small text-light">Have an Existing Account?</p>
+                            <a href="/" class="btn btn-outline-light btn-sm">
+                                <i class="fas fa-sign-in-alt"></i> Login Page
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <script>
-            $(document).ready(function() {
-                // $(document).on('click', '#btnAdd', function() {
-                //     const name = $('#name').val();
-                //     const phone = $('#phone').val();
-                //     const location = $('#location').val();
-
-                //     $('#errorname').text('');
-                //     $('#errorphone').text('');
-                //     $('#errorlocation').text('');
-
-                //     $.ajax({
-                //         url: '/customer/store',
-                //         type: 'POST',
-                //         data: {
-                //             'name': name,
-                //             'phone': phone,
-                //             'location': location,
-                //             '_token': '{{ csrf_token() }}'
-                //         },
-                //         success: function(data) {
-                //             alert(data.msg);
-                //             alert('Customer Name: ' + data.customer.name);
-                //         },
-                //         error: function(xhr, status, error) {
-                //             if (xhr.status === 422) {
-                //                 // Validation errors
-                //                 const errors = xhr.responseJSON.errors;
-                //                 for (const field in errors) {
-                //                     // Display the first error message for each field
-                //                     $(`#error${field}`).text(errors[field][0]);
-                //                 }
-                //             } else {
-                //                 // Other errors
-                //                 alert('An error occurred. Please try again.');
-                //                 console.error(xhr.responseText);
-                //             }
-                //         }
-                //     });
-                // });
-            });
-        </script>
-    </x-layout>
-
+    </div>
+</x-layout>

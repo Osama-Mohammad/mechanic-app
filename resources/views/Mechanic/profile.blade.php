@@ -27,6 +27,11 @@
                             <p class="form-control bg-dark text-light">{{ $mechanic->experience }} Year(s)</p>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Availability:</label>
+                            <p class="form-control bg-dark text-light">{{ $mechanic->availability }}</p>
+                        </div>
+
                         <div class="d-grid">
                             <a href="{{ route('mechanic_EditProfilePage', $mechanic) }}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Edit Profile

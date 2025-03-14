@@ -24,16 +24,14 @@ class AuthController extends Controller
         if (Auth::guard('customer')->attempt($request->only('email', 'password'))) {
             Auth::guard('customer')->user();
             return redirect('/');
-        }
-
-        if (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
+        } elseif (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             Auth::guard('admin')->user();
             return redirect('/');
-        }
-
-        if (Auth::guard('mechanic')->attempt($request->only('email', 'password'))) {
+        } elseif (Auth::guard('mechanic')->attempt($request->only('email', 'password'))) {
             Auth::guard('mechanic')->user();
             return redirect('/');
+        } else {
+            return back()->with('error', 'Invalid Credentials');
         }
     }
 

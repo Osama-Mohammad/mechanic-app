@@ -18,12 +18,16 @@ class MechanicController extends Controller
         $validated = $request->validate([
             'name' => 'required|min:3',
             'email' => 'required|email|unique:customers,email|unique:mechanics,email|unique:mechanics,email',
-            'password' => 'required|min:8|confirmed',
+            'password' => [
+                'required',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ],
             'phone' => 'required|string|unique:customers,phone|max:15',
             'specialization' => 'required|min:5',
             'experience' => 'required|numeric',
-            'availability' => 'required',
-            'rating' => 'required|numeric'
+
         ]);
 
         $mechanic = new Mechanic();
@@ -34,8 +38,7 @@ class MechanicController extends Controller
         $mechanic->phone = $validated['phone'];
         $mechanic->specialization = $validated['specialization'];
         $mechanic->experience = $validated['experience'];
-        $mechanic->availability = $validated['availability'];
-        $mechanic->rating = $validated['rating'];
+
         $mechanic->save();
 
         return back();
@@ -57,7 +60,8 @@ class MechanicController extends Controller
             'name' => 'required|min:3',
             'phone' => 'required|string|max:15|unique:customers,phone,' . $mechanic->id,
             'email' => 'required|email|unique:customers,email|unique:admins,email|unique:mechanics,email,' . $mechanic->id,
-            'experience' => 'required|numeric'
+            'experience' => 'required|numeric',
+            'availability' => 'required',
         ]);
         $mechanic->update($validated);
         return redirect()->route('mechanic_profilePage', compact('mechanic'));
