@@ -12,9 +12,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav">
                 <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i> Home</a>
-                <a class="nav-link" href="/mechanics"><i class="fas fa-map-marker-alt me-1"></i> Find Mechanics</a>
-                <a class="nav-link" href="/bookings"><i class="fas fa-calendar-check me-1"></i> Bookings</a>
-                <a class="nav-link" href="/chat"><i class="fas fa-comments me-1"></i> Chat</a>
+
+
+                @if (Auth::guard('admin')->check() || Auth::guard('customer')->check() || Auth::guard('mechanic')->check())
+                    <a class="nav-link" href="/chat"><i class="fas fa-comments me-1"></i> Chat</a>
+                @endif
+
+
 
                 <!-- Show specific menu items based on the authenticated guard -->
                 @if (Auth::guard('admin')->check())
@@ -26,11 +30,17 @@
                 @if (Auth::guard('customer')->check())
                     <a class="nav-link" href="/customer/profile/{{ Auth::guard('customer')->user()->id }}"><i
                             class="fas fa-user me-1"></i> Customer Profile</a>
+                    <a class="nav-link" href="/mechanics"><i class="fas fa-map-marker-alt me-1"></i> Find Mechanics</a>
+                    <a class="nav-link" href="{{ route('EmergencyRequestPage', Auth::guard('customer')->user()) }}"><i
+                            class="fas fa-calendar-check me-1"></i> Emergency Request</a>
                 @endif
 
                 @if (Auth::guard('mechanic')->check())
                     <a class="nav-link" href="{{ route('mechanic_profilePage', Auth::guard('mechanic')->user()) }}"><i
                             class="fas fa-user-cog me-1"></i> Mechanic Home</a>
+
+                    <a class="nav-link" href="{{ route('MechanicRequestReport', Auth::guard('mechanic')->user()) }}"><i
+                            class="fas fa-user-cog me-1"></i> Mechanic Requests</a>
                 @endif
             </div>
 

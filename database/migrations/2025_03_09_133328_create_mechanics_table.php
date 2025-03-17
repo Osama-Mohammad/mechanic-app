@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->bigInteger('phone')->unique();
             $table->string('specialization');
+            $table->string('location');
             $table->integer('experience');
             $table->enum('availability', ['Available', 'Busy', 'Offline'])->default('Offline');
             $table->float('rating')->default(0);

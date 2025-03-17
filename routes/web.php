@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\EmergencyRequestController;
 use App\Http\Controllers\MechanicController;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +40,9 @@ Route::prefix('customer')->middleware('auth:customer')->group(function () {
     Route::get('/profile/{id}', [CustomerController::class, 'ProfilePage']);
     Route::get('/profile/edit/{id}', [CustomerController::class, 'EditProfile']);
     Route::patch('/profile/edit/{id}', [CustomerController::class, 'UpdateProfile']);
+
+    Route::get('/EmergencyRequest/create', [EmergencyRequestController::class, 'index'])->name('EmergencyRequestPage');
+    Route::post('/EmergencyRequest/{customer}/store', [EmergencyRequestController::class, 'store'])->name('EmergencyStoreRequest');
 });
 
 
@@ -54,4 +58,9 @@ Route::prefix('mechanic')->middleware('auth:mechanic')->group(function () {
     Route::get('/profile/{mechanic}', [MechanicController::class, 'ProfilePage'])->name('mechanic_profilePage');
     Route::get('/profile/edit/{mechanic}', [MechanicController::class, 'EditProfilePage'])->name('mechanic_EditProfilePage');
     Route::patch('/profile/edit/{mechanic}', [MechanicController::class, 'EditProfile'])->name('mechanic_EditProfile');
+
+    Route::get('/EmergencyRequest/{mechanic}/show', [EmergencyRequestController::class, 'MechanicRequest'])->name('MechanicRequestReport');
+    Route::post('/update-request', [EmergencyRequestController::class, 'MechanicUpdateRequest'])->name('MechanicUpdateRequestReport');
+
+    Route::post('/delete-request', [EmergencyRequestController::class, 'MechanicDeleteRequest'])->name('MechanicDeleteRequestReport');
 });

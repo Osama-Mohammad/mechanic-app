@@ -67,6 +67,22 @@
                                 @enderror
                             </div>
                             <div class="mb-3"> <!-- Standardized margin-bottom -->
+                                <label for="location" class="form-label">Location:</label>
+                                <div class="input-group"> <!-- Input group to combine select and icon -->
+                                    <select name="location" class="form-control bg-dark text-light">
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city }}">{{ $city }}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="input-group-text bg-dark border-dark">
+                                        <i class="fas fa-caret-down text-light"></i>
+                                    </span>
+                                </div>
+                                @error('location')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="mb-3"> <!-- Standardized margin-bottom -->
                                 <label for="password" class="form-label">Password:</label>
                                 <input type="password" id="password" name="password"
                                     class="form-control bg-dark text-light placeholder-light"

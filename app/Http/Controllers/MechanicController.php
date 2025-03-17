@@ -10,7 +10,10 @@ class MechanicController extends Controller
 {
     public function RegisterPage()
     {
-        return view('Mechanic.create');
+        $cities = [
+            "Beirut","Tripoli","Sidon","Tyre","Zahle","Jounieh","Baalbek","Byblos","Batroun","Nabatieh","Bcharré","Keserwan","Chouf","Marjeyoun","Aley","Metn","Baabda","Hermel","Rashaya","Jbeil"
+                 ];
+        return view('Mechanic.create',compact('cities'));
     }
 
     public function RegisterStore(Request $request)
@@ -27,7 +30,7 @@ class MechanicController extends Controller
             'phone' => 'required|string|unique:customers,phone|max:15',
             'specialization' => 'required|min:5',
             'experience' => 'required|numeric',
-
+            'location' => 'required'
         ]);
 
         $mechanic = new Mechanic();
@@ -38,6 +41,7 @@ class MechanicController extends Controller
         $mechanic->phone = $validated['phone'];
         $mechanic->specialization = $validated['specialization'];
         $mechanic->experience = $validated['experience'];
+        $mechanic->location = $validated['location'];
 
         $mechanic->save();
 

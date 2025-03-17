@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('description');
             $table->string('location');
-            $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled']);
+            $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled'])->default('pending');
             $table->timestamp('response_time')->nullable();
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('mechanic_id')->constrained()->onDelete('cascade');
