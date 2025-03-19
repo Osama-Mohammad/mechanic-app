@@ -31,4 +31,9 @@ class Mechanic extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating') ?? 0;
+    }
 }

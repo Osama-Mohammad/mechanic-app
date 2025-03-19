@@ -33,6 +33,9 @@
                     <a class="nav-link" href="/mechanics"><i class="fas fa-map-marker-alt me-1"></i> Find Mechanics</a>
                     <a class="nav-link" href="{{ route('EmergencyRequestPage', Auth::guard('customer')->user()) }}"><i
                             class="fas fa-calendar-check me-1"></i> Emergency Request</a>
+
+                    <a class="nav-link" href="{{ route('CreateServicePage') }}"><i
+                            class="fas fa-calendar-check me-1"></i>Make Service Request</a>
                 @endif
 
                 @if (Auth::guard('mechanic')->check())
@@ -53,9 +56,6 @@
                             <i class="fas fa-sign-out-alt me-1"></i> Log Out
                         </button>
                     </form>
-                    {{-- @else
-                    <a class="nav-link" href="/login"><i class="fas fa-sign-in-alt me-1"></i> Login</a>
-                    <a class="nav-link" href="/register"><i class="fas fa-user-plus me-1"></i> Register</a> --}}
                 @endif
             </div>
         </div>

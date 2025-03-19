@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('service_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('service_type');
-            $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled']);
+            $table->foreignId('service_type_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled'])->default('pending');
             $table->dateTime('appointment_time');
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('mechanic_id')->constrained()->onDelete('cascade');

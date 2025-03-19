@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\EmergencyRequestController;
-use App\Http\Controllers\MechanicController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\EmergencyRequestController;
 
 Route::get('/', [AuthController::class, 'loginPage']);
 Route::post('/', [AuthController::class, 'login']);
@@ -21,8 +22,8 @@ Route::prefix('admin')->middleware('guest:admin')->group(function () {
     Route::get('/register/create', [AdminController::class, 'RegisterPage']);
     Route::post('/register/store', [AdminController::class, 'RegisterStore']);
 
-    Route::get('/login', [AdminController::class, 'loginPage']);
-    Route::get('/login', [AdminController::class, 'login']);
+    // Route::get('/login', [AdminController::class, 'loginPage']);
+    // Route::get('/login', [AdminController::class, 'login']);
 });
 
 Route::prefix('admin')->middleware('auth:admin')->group(function () {
@@ -43,6 +44,16 @@ Route::prefix('customer')->middleware('auth:customer')->group(function () {
 
     Route::get('/EmergencyRequest/create', [EmergencyRequestController::class, 'index'])->name('EmergencyRequestPage');
     Route::post('/EmergencyRequest/{customer}/store', [EmergencyRequestController::class, 'store'])->name('EmergencyStoreRequest');
+
+    Route::get('/ServiceRequest/create',[ServiceRequestController::class,'create'])->name('CreateServicePage');
+    Route::post('/ServiceRequest/store',[ServiceRequestController::class,'store'])->name('StoreService');
+
+
+    Route::get('/review', [CustomerController::class, 'MakeReview']);
+
+
+
+    Route::get('/review/{customer}', [CustomerController::class, 'AllReviews']);
 });
 
 
@@ -50,8 +61,8 @@ Route::prefix('mechanic')->middleware('guest:mechanic')->group(function () {
     Route::get('/register/create', [MechanicController::class, 'RegisterPage']);
     Route::post('/register/store', [MechanicController::class, 'RegisterStore']);
 
-    Route::get('/login', [MechanicController::class, 'loginPage']);
-    Route::get('/login', [MechanicController::class, 'login']);
+    // Route::get('/login', [MechanicController::class, 'loginPage']);
+    // Route::get('/login', [MechanicController::class, 'login']);
 });
 
 Route::prefix('mechanic')->middleware('auth:mechanic')->group(function () {

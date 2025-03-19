@@ -4,15 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
     public function create()
     {
         $cities = [
-            "Beirut","Tripoli","Sidon","Tyre","Zahle","Jounieh","Baalbek","Byblos","Batroun","Nabatieh","Bcharré","Keserwan","Chouf","Marjeyoun","Aley","Metn","Baabda","Hermel","Rashaya","Jbeil"
-                 ];
-        return view('Customer.create',compact('cities'));
+            "Beirut",
+            "Tripoli",
+            "Sidon",
+            "Tyre",
+            "Zahle",
+            "Jounieh",
+            "Baalbek",
+            "Byblos",
+            "Batroun",
+            "Nabatieh",
+            "Bcharré",
+            "Keserwan",
+            "Chouf",
+            "Marjeyoun",
+            "Aley",
+            "Metn",
+            "Baabda",
+            "Hermel",
+            "Rashaya",
+            "Jbeil"
+        ];
+        return view('Customer.create', compact('cities'));
     }
 
     public function store(Request $request)
@@ -69,5 +89,18 @@ class CustomerController extends Controller
         $customer->update($validated);
 
         return redirect('/customer/profile/' . $customer->id);
+    }
+
+
+    public function MakeReview()
+    {
+        return view('reviews.create');
+    }
+
+
+    public function AllReviews()
+    {
+        $reviews = Auth::guard('customer')->user()->reviews;
+        return view('reviews.index', compact('reviews'));
     }
 }
