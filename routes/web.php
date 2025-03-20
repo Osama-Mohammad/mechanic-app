@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\EmergencyRequestController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', [AuthController::class, 'loginPage']);
 Route::post('/', [AuthController::class, 'login']);
@@ -45,13 +46,18 @@ Route::prefix('customer')->middleware('auth:customer')->group(function () {
     Route::get('/EmergencyRequest/create', [EmergencyRequestController::class, 'index'])->name('EmergencyRequestPage');
     Route::post('/EmergencyRequest/{customer}/store', [EmergencyRequestController::class, 'store'])->name('EmergencyStoreRequest');
 
-    Route::get('/ServiceRequest/create',[ServiceRequestController::class,'create'])->name('CreateServicePage');
-    Route::post('/ServiceRequest/store',[ServiceRequestController::class,'store'])->name('StoreService');
+    Route::get('/ServiceRequest/create', [ServiceRequestController::class, 'create'])->name('CreateServicePage');
+    Route::post('/ServiceRequest/store', [ServiceRequestController::class, 'store'])->name('StoreService');
 
 
     Route::get('/review', [CustomerController::class, 'MakeReview']);
+    Route::get('/serviceRequest', [ServiceRequestController::class, 'index'])->name('serviceRequest.index');
 
+    Route::get('/review/create/{serviceRequest}', [ReviewController::class, 'create'])->name('CreateReview');
+    Route::post('/review/store/{serviceRequest}', [ReviewController::class, 'store'])->name('reviews.store');
 
+    Route::get('/review/edit/{review}', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/review/update/{review}', [ReviewController::class, 'update'])->name('reviews.update');
 
     Route::get('/review/{customer}', [CustomerController::class, 'AllReviews']);
 });

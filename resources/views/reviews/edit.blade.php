@@ -1,11 +1,31 @@
 <x-layout>
     <x-nav />
 
+    <!-- Flash Message Section -->
+    @if (session('info'))
+        <div class="alert alert-info text-center">
+            {{ session('info') }}
+        </div>
+    @endif
+
     <style>
         /* Custom CSS to make placeholder text visible */
         .placeholder-light::placeholder {
             color: #ccc;
             opacity: 1;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            /* Light blue background */
+            color: #0c5460;
+            /* Dark blue text */
+            border: 1px solid #bee5eb;
+            /* Light blue border */
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            text-align: center;
         }
 
         /* Star rating styling */
@@ -38,37 +58,33 @@
                 <div class="card bg-secondary text-white">
                     <div class="card-header bg-dark">
                         <h3 class="card-title text-center">
-                            <i class="fas fa-star"></i> Submit a Review
+                            <i class="fas fa-star"></i> Update Review
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('reviews.store', $serviceRequest) }}" method="POST">
+                        <form action="{{ route('reviews.update', $review) }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <div class="mb-2">
                                 <label for="rating" class="form-label">Rating:</label>
                                 <div class="star-rating" id="star-rating">
-                                    <span class="star" data-value="1"><i class="fas fa-star"></i></span>
-                                    <span class="star" data-value="2"><i class="fas fa-star"></i></span>
-                                    <span class="star" data-value="3"><i class="fas fa-star"></i></span>
-                                    <span class="star" data-value="4"><i class="fas fa-star"></i></span>
-                                    <span class="star" data-value="5"><i class="fas fa-star"></i></span>
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <span class="star {{ $i <= $review->rating ? 'selected' : '' }}"
+                                            data-value="{{ $i }}">
+                                            <i class="fas fa-star"></i>
+                                        </span>
+                                    @endfor
                                 </div>
-                                <input type="hidden" name="rating" id="rating" value="0">
-                                @error('rating')
-                                    <div class="text-danger mt-2">{{ $message }}</div>
-                                @enderror
+                                <input type="hidden" name="rating" id="rating" value="{{ $review->rating }}">
                             </div>
                             <div class="mb-3">
                                 <label for="comment" class="form-label">Comment:</label>
                                 <textarea id="comment" name="comment" class="form-control bg-dark text-light placeholder-light" rows="4"
-                                    placeholder="Leave a comment..."></textarea>
-                                @error('comment')
-                                    <div class="text-danger mt-2">{{ $message }}</div>
-                                @enderror
+                                    placeholder="Leave a comment...">{{ $review->comment }}</textarea>
                             </div>
                             <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-warning">
-                                    <i class="fas fa-paper-plane"></i> Submit Review
+                                    <i class="fas fa-paper-plane"></i> Update Review
                                 </button>
                             </div>
                         </form>

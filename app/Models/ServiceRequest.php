@@ -9,7 +9,7 @@ class ServiceRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'mechanic_id', 'service_type', 'status', 'appointment_time'];
+    protected $fillable = ['customer_id', 'mechanic_id', 'service_type_id', 'status', 'appointment_time'];
 
     public function customer()
     {
@@ -29,5 +29,10 @@ class ServiceRequest extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function serviceType()
+    {
+        return $this->belongsTo(ServiceType::class, 'service_type_id');
     }
 }

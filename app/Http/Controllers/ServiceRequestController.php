@@ -16,7 +16,8 @@ class ServiceRequestController extends Controller
      */
     public function index()
     {
-        //
+        $serviceRequests = ServiceRequest::with('serviceType')->get();
+        return view('ServiceRequest.index', compact('serviceRequests'));
     }
 
     /**

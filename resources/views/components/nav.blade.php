@@ -36,6 +36,9 @@
 
                     <a class="nav-link" href="{{ route('CreateServicePage') }}"><i
                             class="fas fa-calendar-check me-1"></i>Make Service Request</a>
+
+                    <a class="nav-link" href="{{ route('serviceRequest.index') }}"><i
+                            class="fas fa-calendar-check me-1"></i>Own Request</a>
                 @endif
 
                 @if (Auth::guard('mechanic')->check())
