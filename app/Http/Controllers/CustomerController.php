@@ -92,15 +92,7 @@ class CustomerController extends Controller
     }
 
 
-    public function MakeReview()
-    {
-        return view('reviews.create');
-    }
 
 
-    public function AllReviews()
-    {
-        $reviews = Auth::guard('customer')->user()->reviews;
-        return view('reviews.index', compact('reviews'));
-    }
+
 }

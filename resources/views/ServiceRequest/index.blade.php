@@ -109,7 +109,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($serviceRequests as $serviceRequest)
+                            @forelse ($serviceRequests as $serviceRequest)
                                 <tr>
                                     <td>{{ $serviceRequest->serviceType->name }}</td>
                                     <td>{{ $serviceRequest->status }}</td>
@@ -121,7 +121,13 @@
                                         </a>
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <i class="fas fa-exclamation-circle icon"></i> No service requests found.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                     @if (session('success'))

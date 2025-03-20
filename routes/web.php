@@ -50,8 +50,9 @@ Route::prefix('customer')->middleware('auth:customer')->group(function () {
     Route::post('/ServiceRequest/store', [ServiceRequestController::class, 'store'])->name('StoreService');
 
 
-    Route::get('/review', [CustomerController::class, 'MakeReview']);
     Route::get('/serviceRequest', [ServiceRequestController::class, 'index'])->name('serviceRequest.index');
+
+    Route::get('/review', [ReviewController::class, 'create']);
 
     Route::get('/review/create/{serviceRequest}', [ReviewController::class, 'create'])->name('CreateReview');
     Route::post('/review/store/{serviceRequest}', [ReviewController::class, 'store'])->name('reviews.store');

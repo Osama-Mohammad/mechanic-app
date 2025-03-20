@@ -110,4 +110,10 @@ class ReviewController extends Controller
     {
         //
     }
+
+    public function AllReviews()
+    {
+        $reviews = Auth::guard('customer')->user()->reviews;
+        return view('reviews.index', compact('reviews'));
+    }
 }
