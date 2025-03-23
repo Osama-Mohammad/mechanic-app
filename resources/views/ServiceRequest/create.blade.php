@@ -87,15 +87,7 @@
                                         <i class="fas fa-caret-down text-light"></i>
                                     </span>
                                 </div>
-                            {{-- <div class="form-group">
-                                <label for="status" class="form-label">Status:</label>
-                                <select name="status" id="status" class="form-control">
-                                    <option value="pending">Pending</option>
-                                    <option value="inprogress">In Progress</option>
-                                    <option value="completed">Completed</option>
-                                    <option value="canceled">Canceled</option>
-                                </select>
-                            </div> --}}
+
                             <div class="form-group">
                                 <label for="appointment_time" class="form-label">Appointment Date:</label>
                                 <input type="date" name="appointment_time" id="appointment_time"
@@ -110,7 +102,11 @@
                                 <div class="input-group">
                                     <select name="mechanic_id" id="mechanic_id" class="form-control bg-dark text-light">
                                         @foreach ($mechanics as $mechanic)
-                                            <option value="{{ $mechanic->id }}">{{ $mechanic->name }}</option>
+                                            <option value="{{ $mechanic->id }}">
+                                                {{ $mechanic->name }}
+                                                - <span class="rating">{{ number_format($mechanic->average_rating, 1) }} ⭐</span>
+
+                                            </option>
                                         @endforeach
                                     </select>
                                     <span class="input-group-text bg-dark border-dark">

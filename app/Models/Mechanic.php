@@ -36,4 +36,16 @@ class Mechanic extends Authenticatable
     {
         return $this->reviews()->avg('rating') ?? 0;
     }
+    /*
+            What is an Accessor in Laravel?
+        In Laravel, an accessor is a method in your Eloquent model that allows you to define a custom attribute that can be accessed like a property. Accessors are typically used to compute or format values dynamically.
+
+        The naming convention for accessors is:
+
+        Start with get.
+
+        Follow with the StudlyCase name of the attribute you want to define.
+
+        End with Attribute.
+    */
 }

@@ -78,7 +78,12 @@ Route::prefix('mechanic')->middleware('auth:mechanic')->group(function () {
     Route::patch('/profile/edit/{mechanic}', [MechanicController::class, 'EditProfile'])->name('mechanic_EditProfile');
 
     Route::get('/EmergencyRequest/{mechanic}/show', [EmergencyRequestController::class, 'MechanicRequest'])->name('MechanicRequestReport');
-    Route::post('/update-request', [EmergencyRequestController::class, 'MechanicUpdateRequest'])->name('MechanicUpdateRequestReport');
 
-    Route::post('/delete-request', [EmergencyRequestController::class, 'MechanicDeleteRequest'])->name('MechanicDeleteRequestReport');
+    Route::post('/update-request-emergency', [EmergencyRequestController::class, 'MechanicUpdateRequestEmergency'])->name('MechanicUpdateRequestReportEmergency');
+    Route::post('/delete-request-emergency', [EmergencyRequestController::class, 'MechanicDeleteRequestEmergency'])->name('MechanicDeleteRequestReportEmergency');
+
+    Route::post('/update-request-regular', [EmergencyRequestController::class, 'MechanicUpdateRequestRegular'])->name('MechanicUpdateRequestRegular');
+    Route::post('/delete-request-regular', [EmergencyRequestController::class, 'MechanicDeleteRequestRegular'])->name('MechanicDeleteRequestRegular');
+
+
 });

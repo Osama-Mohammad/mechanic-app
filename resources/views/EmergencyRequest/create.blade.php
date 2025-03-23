@@ -7,6 +7,12 @@
             color: #ccc;
             opacity: 1;
         }
+
+        /* Custom CSS for rating */
+        .rating {
+            color: #FFD700; /* Gold color for stars */
+            font-weight: bold;
+        }
     </style>
 
     <div class="container mt-5">
@@ -19,8 +25,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST"
-                            action="{{ route('EmergencyStoreRequest', Auth::guard('customer')->user()) }}">
+                        <form method="POST" action="{{ route('EmergencyStoreRequest', Auth::guard('customer')->user()) }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description:</label>
@@ -31,29 +36,14 @@
                                 @enderror
                             </div>
 
-                            {{-- <div class="mb-3">
-                                <label for="location" class="form-label">Location:</label>
-                                <div class="input-group">
-                                    <select name="location" class="form-control bg-dark text-light">
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city }}">{{ $city }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="input-group-text bg-dark border-dark">
-                                        <i class="fas fa-caret-down text-light"></i>
-                                    </span>
-                                </div>
-                                @error('location')
-                                    <div class="text-danger small">{{ $message }}</div>
-                                @enderror
-                            </div> --}}
-
                             <div class="mb-3">
                                 <label for="mechanics" class="form-label">Mechanics:</label>
                                 <div class="input-group">
                                     <select name="mechanics" class="form-control bg-dark text-light">
                                         @foreach ($mechanics as $mechanic)
-                                            <option value="{{ $mechanic->id }}">{{ $mechanic->name }}</option>
+                                            <option value="{{ $mechanic->id }}">
+                                                {{ $mechanic->name }} - <span class="rating">{{ number_format($mechanic->average_rating, 1) }} ⭐</span>
+                                            </option>
                                         @endforeach
                                     </select>
                                     <span class="input-group-text bg-dark border-dark">
@@ -64,6 +54,7 @@
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="mb-3">
                                 <label for="responseTime" class="form-label">Response Time:</label>
                                 <input type="date" id="responseTime" name="responseTime"
@@ -72,6 +63,7 @@
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
+
                             <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-warning">
                                     <i class="fas fa-paper-plane"></i> Submit Report

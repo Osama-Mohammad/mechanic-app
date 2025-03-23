@@ -27,7 +27,9 @@ class ServiceRequestController extends Controller
     public function create()
     {
         $ServiceTypes = ServiceType::all();
-        $mechanics = Mechanic::where('location', Auth::guard('customer')->user()->location)->get();
+        $mechanics = Mechanic::where('location', Auth::guard('customer')->user()->location)
+            ->withAvg('reviews as average_rating', 'rating')
+            ->orderByDesc('average_rating')->get();
         return view('ServiceRequest.create', compact('mechanics', 'ServiceTypes'));
     }
 
