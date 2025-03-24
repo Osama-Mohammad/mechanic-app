@@ -50,11 +50,11 @@
 
                     <div class="card-footer bg-dark text-center py-2"> <!-- Reduced padding -->
                         <p class="mb-1 small">Don't have an account?</p> <!-- Smaller font -->
-                        <a href="/mechanic/register/create" class="btn btn-outline-primary btn-sm me-1">
+                        <a href="{{ route('mechanic.register.page') }}" class="btn btn-outline-primary btn-sm me-1">
                             <!-- Smaller button -->
                             <i class="fas fa-wrench"></i> Sign Up as Mechanic
                         </a>
-                        <a href="/customer/register/create" class="btn btn-outline-success btn-sm">
+                        <a href="{{ route('customer.register.page') }}" class="btn btn-outline-success btn-sm">
                             <!-- Smaller button -->
                             <i class="fas fa-user"></i> Sign Up as Customer
                         </a>

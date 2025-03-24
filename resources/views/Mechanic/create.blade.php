@@ -19,7 +19,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/mechanic/register/store">
+                        <form method="POST" action="{{ route('mechanic.register.store') }}">
                             @csrf
                             <div class="mb-3"> <!-- Standardized margin-bottom -->
                                 <label for="name" class="form-label">Name:</label>

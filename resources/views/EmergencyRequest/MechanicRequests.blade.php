@@ -8,7 +8,8 @@
                 <div class="card bg-dark text-white mb-4">
                     <div class="card-header bg-danger">
                         <h3 class="card-title text-center">
-                            <i class="fas fa-exclamation-triangle"></i> Emergency Requests For Mechanic: {{ $mechanic->name }}
+                            <i class="fas fa-exclamation-triangle"></i> Emergency Requests For Mechanic:
+                            {{ $mechanic->name }}
                         </h3>
                     </div>
                     <div class="card-body">
@@ -29,20 +30,32 @@
                                         <td>{{ $request->location }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <select name="status" class="form-select form-select-sm bg-dark text-white w-auto" id="status-{{ $request->id }}">
-                                                    <option value="pending" {{ $request->status === 'pending' ? 'selected' : '' }}><i class="fas fa-clock"></i> Pending</option>
-                                                    <option value="inprogress" {{ $request->status === 'inprogress' ? 'selected' : '' }}><i class="fas fa-tools"></i> In Progress</option>
-                                                    <option value="completed" {{ $request->status === 'completed' ? 'selected' : '' }}><i class="fas fa-check-circle"></i> Completed</option>
-                                                    <option value="canceled" {{ $request->status === 'canceled' ? 'selected' : '' }}><i class="fas fa-times-circle"></i> Canceled</option>
+                                                <select name="status"
+                                                    class="form-select form-select-sm bg-dark text-white w-auto"
+                                                    id="status-{{ $request->id }}">
+                                                    <option value="pending"
+                                                        {{ $request->status === 'pending' ? 'selected' : '' }}><i
+                                                            class="fas fa-clock"></i> Pending</option>
+                                                    <option value="inprogress"
+                                                        {{ $request->status === 'inprogress' ? 'selected' : '' }}><i
+                                                            class="fas fa-tools"></i> In Progress</option>
+                                                    <option value="completed"
+                                                        {{ $request->status === 'completed' ? 'selected' : '' }}><i
+                                                            class="fas fa-check-circle"></i> Completed</option>
+                                                    <option value="canceled"
+                                                        {{ $request->status === 'canceled' ? 'selected' : '' }}><i
+                                                            class="fas fa-times-circle"></i> Canceled</option>
                                                 </select>
-                                                <button class="btn btn-warning btn-sm px-3 BtnSave" data-id="{{ $request->id }}">
+                                                <button class="btn btn-warning btn-sm px-3 BtnSave"
+                                                    data-id="{{ $request->id }}">
                                                     <i class="fas fa-save"></i> Save
                                                 </button>
                                             </div>
                                         </td>
                                         <td>{{ $request->created_at->format('Y-m-d H:i') }}</td>
                                         <td>
-                                            <button type="submit" class="btn btn-danger btn-sm BtnDelete" data-id="{{ $request->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm BtnDelete"
+                                                data-id="{{ $request->id }}">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </td>
@@ -78,20 +91,32 @@
                                         <td>{{ $request->appointment_time }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <select name="status" class="form-select form-select-sm bg-dark text-white w-auto" id="regular-status-{{ $request->id }}">
-                                                    <option value="pending" {{ $request->status === 'pending' ? 'selected' : '' }}><i class="fas fa-clock"></i> Pending</option>
-                                                    <option value="inprogress" {{ $request->status === 'inprogress' ? 'selected' : '' }}><i class="fas fa-tools"></i> In Progress</option>
-                                                    <option value="completed" {{ $request->status === 'completed' ? 'selected' : '' }}><i class="fas fa-check-circle"></i> Completed</option>
-                                                    <option value="canceled" {{ $request->status === 'canceled' ? 'selected' : '' }}><i class="fas fa-times-circle"></i> Canceled</option>
+                                                <select name="status"
+                                                    class="form-select form-select-sm bg-dark text-white w-auto"
+                                                    id="regular-status-{{ $request->id }}">
+                                                    <option value="pending"
+                                                        {{ $request->status === 'pending' ? 'selected' : '' }}><i
+                                                            class="fas fa-clock"></i> Pending</option>
+                                                    <option value="inprogress"
+                                                        {{ $request->status === 'inprogress' ? 'selected' : '' }}><i
+                                                            class="fas fa-tools"></i> In Progress</option>
+                                                    <option value="completed"
+                                                        {{ $request->status === 'completed' ? 'selected' : '' }}><i
+                                                            class="fas fa-check-circle"></i> Completed</option>
+                                                    <option value="canceled"
+                                                        {{ $request->status === 'canceled' ? 'selected' : '' }}><i
+                                                            class="fas fa-times-circle"></i> Canceled</option>
                                                 </select>
-                                                <button class="btn btn-warning btn-sm px-3 BtnSaveRegularRequest" data-id="{{ $request->id }}">
+                                                <button class="btn btn-warning btn-sm px-3 BtnSaveRegularRequest"
+                                                    data-id="{{ $request->id }}">
                                                     <i class="fas fa-save"></i> Save
                                                 </button>
                                             </div>
                                         </td>
                                         <td>{{ $request->customer->name }}</td>
                                         <td>
-                                            <button type="submit" class="btn btn-danger btn-sm BtnDeleteRegularRequest" data-id="{{ $request->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm BtnDeleteRegularRequest"
+                                                data-id="{{ $request->id }}">
                                                 <i class="fas fa-trash"></i> Delete
                                             </button>
                                         </td>
@@ -118,7 +143,7 @@
                 }
 
                 $.ajax({
-                    url: '{{ route('MechanicUpdateRequestReportEmergency') }}',
+                    url: '{{ route('mechanic.emergency.update') }}',
                     type: 'POST',
                     data: {
                         'id': id,
@@ -139,12 +164,13 @@
             $(document).on('click', '.BtnDelete', function() {
                 let id = $(this).data('id');
 
-                if (!confirm("Are you sure you want to delete this request? This action cannot be undone.")) {
+                if (!confirm(
+                        "Are you sure you want to delete this request? This action cannot be undone.")) {
                     return;
                 }
 
                 $.ajax({
-                    url: '{{ route('MechanicDeleteRequestReportEmergency') }}',
+                    url: '{{ route('mechanic.emergency.delete') }}',
                     type: 'POST',
                     data: {
                         '_token': '{{ csrf_token() }}',
@@ -165,8 +191,13 @@
                 let id = $(this).data('id');
                 let status = $('#regular-status-' + id).val();
 
+                if (!confirm(
+                        "Are you sure you want to Update this request?")) {
+                    return;
+                }
+
                 $.ajax({
-                    url: '{{ route('MechanicUpdateRequestRegular') }}',
+                    url: '{{ route('mechanic.service.update') }}',
                     type: 'POST',
                     data: {
                         'id': id,
@@ -187,12 +218,13 @@
             $(document).on('click', '.BtnDeleteRegularRequest', function() {
                 let id = $(this).data('id');
 
-                if (!confirm("Are you sure you want to delete this request? This action cannot be undone.")) {
+                if (!confirm(
+                        "Are you sure you want to delete this request? This action cannot be undone.")) {
                     return;
                 }
 
                 $.ajax({
-                    url: '{{ route('MechanicDeleteRequestRegular') }}',
+                    url: '{{ route('mechanic.service.delete') }}',
                     type: 'POST',
                     data: {
                         'id': id,

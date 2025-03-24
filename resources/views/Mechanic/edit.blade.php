@@ -11,7 +11,7 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('mechanic_EditProfile', $mechanic) }}" method="POST">
+                            <form action="{{ route('mechanic.profile.update', $mechanic) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="mb-3">

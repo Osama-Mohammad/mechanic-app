@@ -1,5 +1,3 @@
-
-
 <body class="bg-dark text-light">
     <x-layout>
         <x-nav />
@@ -31,7 +29,7 @@
                             </div>
 
                             <div class="d-grid">
-                                <a href="/customer/profile/edit/{{ $customer->id }}" class="btn btn-warning">
+                                <a href=" {{ route('customer.profile.edit', $customer->id) }}" class="btn btn-warning">
                                     <i class="fas fa-edit"></i> Edit Profile
                                 </a>
                             </div>
@@ -42,4 +40,3 @@
             </div>
         </div>
     </x-layout>
-

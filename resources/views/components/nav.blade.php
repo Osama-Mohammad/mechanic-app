@@ -28,26 +28,27 @@
                 @endif
 
                 @if (Auth::guard('customer')->check())
-                    <a class="nav-link" href="/customer/profile/{{ Auth::guard('customer')->user()->id }}"><i
+                    <a class="nav-link" href="{{ route('customer.profile', Auth::guard('customer')->user()->id) }}"><i
                             class="fas fa-user me-1"></i> Customer Profile</a>
 
                     {{-- <a class="nav-link" href="/mechanics"><i class="fas fa-map-marker-alt me-1"></i> Find Mechanics</a> --}}
 
-                    <a class="nav-link" href="{{ route('EmergencyRequestPage', Auth::guard('customer')->user()) }}"><i
+                    <a class="nav-link"
+                        href="{{ route('emergency.request.create', Auth::guard('customer')->user()) }}"><i
                             class="fas fa-calendar-check me-1"></i> Emergency Request</a>
 
-                    <a class="nav-link" href="{{ route('CreateServicePage') }}"><i
+                    <a class="nav-link" href="{{ route('service-requests.create') }}"><i
                             class="fas fa-calendar-check me-1"></i>Make Service Request</a>
 
-                    <a class="nav-link" href="{{ route('serviceRequest.index') }}"><i
+                    <a class="nav-link" href="{{ route('service-requests.index') }}"><i
                             class="fas fa-calendar-check me-1"></i>Own Request</a>
                 @endif
 
                 @if (Auth::guard('mechanic')->check())
-                    <a class="nav-link" href="{{ route('mechanic_profilePage', Auth::guard('mechanic')->user()) }}"><i
+                    <a class="nav-link" href="{{ route('mechanic.profile', Auth::guard('mechanic')->user()) }}"><i
                             class="fas fa-user-cog me-1"></i> Mechanic Home</a>
 
-                    <a class="nav-link" href="{{ route('MechanicRequestReport', Auth::guard('mechanic')->user()) }}"><i
+                    <a class="nav-link" href="{{ route('mechanic.emergency.show', Auth::guard('mechanic')->user()) }}"><i
                             class="fas fa-user-cog me-1"></i> Mechanic Requests</a>
                 @endif
             </div>

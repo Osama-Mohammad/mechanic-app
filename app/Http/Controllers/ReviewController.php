@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Review;  
+use App\Models\Review;
 use App\Models\ServiceRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -100,7 +100,7 @@ class ReviewController extends Controller
             'comment' => $validated['comment'],
         ]);
 
-        return redirect()->route('serviceRequest.index')->with('success', 'Review updated successfully!');
+        return redirect()->route('service-requests.index')->with('success', 'Review updated successfully!');
     }
 
     /**

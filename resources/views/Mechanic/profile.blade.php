@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="d-grid">
-                            <a href="{{ route('mechanic_EditProfilePage', $mechanic) }}" class="btn btn-warning">
+                            <a href="{{ route('mechanic.profile.edit', $mechanic) }}" class="btn btn-warning">
                                 <i class="fas fa-edit"></i> Edit Profile
                             </a>
                         </div>

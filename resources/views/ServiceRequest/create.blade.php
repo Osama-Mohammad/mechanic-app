@@ -73,7 +73,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('StoreService') }}" method="POST">
+                        <form action="{{ route('service-requests.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="service_type_id" class="form-label">Service Type:</label>

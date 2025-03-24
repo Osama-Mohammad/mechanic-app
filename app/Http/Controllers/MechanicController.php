@@ -68,6 +68,6 @@ class MechanicController extends Controller
             'availability' => 'required',
         ]);
         $mechanic->update($validated);
-        return redirect()->route('mechanic_profilePage', compact('mechanic'));
+        return redirect()->route('mechanic.profile', compact('mechanic'));
     }
 }

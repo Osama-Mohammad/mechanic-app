@@ -19,7 +19,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/customer/register/store">
+                        <form method="POST" action="{{ route('customer.register.store') }}">
                             @csrf
                             <div class="mb-3"> <!-- Standardized margin-bottom -->
                                 <label for="name" class="form-label">Name:</label>
@@ -89,7 +89,7 @@
                         </form>
                         <div class="card-footer bg-dark text-center py-2">
                             <p class="mb-1 small text-light">Have an Existing Account?</p>
-                            <a href="/" class="btn btn-outline-light btn-sm">
+                            <a href="{{ route('login.page') }}" class="btn btn-outline-light btn-sm">
                                 <i class="fas fa-sign-in-alt"></i> Login Page
                             </a>
                         </div>

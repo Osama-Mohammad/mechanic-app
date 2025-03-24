@@ -25,7 +25,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('EmergencyStoreRequest', Auth::guard('customer')->user()) }}">
+                        <form method="POST" action="{{ route('emergency.request.store', Auth::guard('customer')->user()) }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description:</label>
