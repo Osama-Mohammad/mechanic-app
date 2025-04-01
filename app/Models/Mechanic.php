@@ -10,7 +10,7 @@ class Mechanic extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'specialization', 'experience', 'availability', 'rating', 'email', 'password', 'location'];
+    protected $fillable = ['name', 'phone', 'specialization', 'experience', 'availability', 'rating', 'email', 'password', 'location','longitude', 'latitude'];
 
     public function serviceRequests()
     {

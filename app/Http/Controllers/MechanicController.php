@@ -11,9 +11,28 @@ class MechanicController extends Controller
     public function RegisterPage()
     {
         $cities = [
-            "Beirut","Tripoli","Sidon","Tyre","Zahle","Jounieh","Baalbek","Byblos","Batroun","Nabatieh","Bcharré","Keserwan","Chouf","Marjeyoun","Aley","Metn","Baabda","Hermel","Rashaya","Jbeil"
-                 ];
-        return view('Mechanic.create',compact('cities'));
+            "Beirut",
+            "Tripoli",
+            "Sidon",
+            "Tyre",
+            "Zahle",
+            "Jounieh",
+            "Baalbek",
+            "Byblos",
+            "Batroun",
+            "Nabatieh",
+            "Bcharré",
+            "Keserwan",
+            "Chouf",
+            "Marjeyoun",
+            "Aley",
+            "Metn",
+            "Baabda",
+            "Hermel",
+            "Rashaya",
+            "Jbeil"
+        ];
+        return view('Mechanic.create', compact('cities'));
     }
 
     public function RegisterStore(Request $request)
@@ -30,7 +49,9 @@ class MechanicController extends Controller
             'phone' => 'required|string|unique:customers,phone|max:15',
             'specialization' => 'required|min:5',
             'experience' => 'required|numeric',
-            'location' => 'required'
+            'location' => 'required',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
         ]);
 
         $mechanic = new Mechanic();
@@ -42,10 +63,12 @@ class MechanicController extends Controller
         $mechanic->specialization = $validated['specialization'];
         $mechanic->experience = $validated['experience'];
         $mechanic->location = $validated['location'];
+        $mechanic->longitude = $validated['longitude'];
+        $mechanic->latitude = $validated['latitude'];
 
         $mechanic->save();
 
-        return back();
+        return redirect()->route('login.page');
     }
 
     public function ProfilePage(Mechanic $mechanic)

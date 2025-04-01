@@ -36,9 +36,27 @@ class EmergencyRequestController extends Controller
             "Rashaya",
             "Jbeil"
         ];
-        $mechanics = Mechanic::where('location', Auth::guard('customer')->user()->location)
-            ->withAvg('reviews as average_rating', 'rating')
-            ->orderByDesc('average_rating')->get();
+
+        $customer = Auth::guard('customer')->user();
+
+
+        // Get the nearest mechanics using the Haversine formula
+        $mechanics = Mechanic::selectRaw(
+            "*, (6371 * acos(
+                cos(radians(?)) * cos(radians(latitude)) *
+                cos(radians(longitude) - radians(?)) +
+                sin(radians(?)) * sin(radians(latitude))
+            )) AS distance",
+            [$customer->latitude, $customer->longitude, $customer->latitude]
+        )
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->where('availability', 'Available')
+            ->having('distance', '<', 50)  // Only within 50 km
+            ->orderBy('distance')
+            ->limit(10)  // Get only the top 10 nearest mechanics
+            ->get();
+
         return view('EmergencyRequest.create', compact('cities', 'mechanics'));
     }
 

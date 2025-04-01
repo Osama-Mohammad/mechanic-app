@@ -11,7 +11,7 @@ use App\Http\Controllers\ReviewController;
 
 
 
-/* ------------------------------------------------------------Start Customer------------------------------------------------------------ */
+/* ------------------------------------------------------------Start Auth------------------------------------------------------------ */
 
 /* Route::get('/', [AuthController::class, 'loginPage']);
 Route::post('/', [AuthController::class, 'login']);
@@ -36,7 +36,11 @@ Route::controller(AuthController::class)->group(function () {
     });
 });
 
+/* ------------------------------------------------------------End Auth------------------------------------------------------------ */
 
+
+/* ------------------------------------------------------------Admin Auth------------------------------------------------------------ */
+/*
 Route::prefix('admin')->middleware('guest:admin')->group(function () {
     Route::get('/register/create', [AdminController::class, 'RegisterPage']);
     Route::post('/register/store', [AdminController::class, 'RegisterStore']);
@@ -50,7 +54,7 @@ Route::prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('/profile/{admin}', [AdminController::class, 'ProfilePage'])->name('admin_profilePage');
     Route::get('/profile/edit/{admin}', [AdminController::class, 'EditProfilePage'])->name('admin_EditProfilePage');
     Route::patch('/profile/edit/{admin}', [AdminController::class, 'EditProfile'])->name('admin_EditProfile');
-});
+}); */
 
 Route::prefix('admin')->group(function () {
     Route::middleware('guest:admin')->group(function () {
@@ -64,8 +68,8 @@ Route::prefix('admin')->group(function () {
         Route::patch('/profile/edit/{admin}', [AdminController::class, 'EditProfile'])->name('admin.profile.update');
     });
 });
-/* ------------------------------------------------------------End Auth------------------------------------------------------------ */
 
+/* ------------------------------------------------------------Admin End------------------------------------------------------------ */
 
 
 

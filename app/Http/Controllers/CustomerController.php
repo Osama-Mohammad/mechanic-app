@@ -48,12 +48,16 @@ class CustomerController extends Controller
                 'confirmed',
                 'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
             ],
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
         ]);
 
         $customer = new Customer();
         $customer->name = $validated['name'];
         $customer->phone = $validated['phone'];
         $customer->location = $validated['location'];
+        $customer->latitude = $validated['latitude'] ?? null;
+        $customer->longitude = $validated['longitude'] ?? null;
         $customer->email = $validated['email'];
         $password = bcrypt($validated['password']);
         $customer->password = $password;
@@ -62,7 +66,7 @@ class CustomerController extends Controller
         $customer->save();
 
         // return response()->json(['msg' => 'Added Successfully', 'customer' => $customer]);
-        return back();
+        return  redirect()->route('login.page');
     }
 
     public function ProfilePage($id)
@@ -90,9 +94,4 @@ class CustomerController extends Controller
 
         return redirect('/customer/profile/' . $customer->id);
     }
-
-
-
-
-
 }

@@ -24,14 +24,45 @@ class ServiceRequestController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    // public function create()
+    // {
+    //     $ServiceTypes = ServiceType::all();
+    //     $customer = Auth::guard('customer')->user();
+    //     $mechanics = Mechanic::where('location', Auth::guard('customer')->user()->location)
+    //         ->withAvg('reviews as average_rating', 'rating')
+    //         ->orderByDesc('average_rating')->get();
+    //     return view('ServiceRequest.create', compact('mechanics', 'ServiceTypes'));
+    // }
+
     public function create()
     {
+        $customer = Auth::guard('customer')->user();
+
+        // Get all service types
         $ServiceTypes = ServiceType::all();
-        $mechanics = Mechanic::where('location', Auth::guard('customer')->user()->location)
-            ->withAvg('reviews as average_rating', 'rating')
-            ->orderByDesc('average_rating')->get();
+
+        // Get the nearest mechanics using the Haversine formula
+        $mechanics = Mechanic::selectRaw(
+            "*, (6371 * acos(
+                cos(radians(?)) * cos(radians(latitude)) *
+                cos(radians(longitude) - radians(?)) +
+                sin(radians(?)) * sin(radians(latitude))
+            )) AS distance",
+            [$customer->latitude, $customer->longitude, $customer->latitude]
+        )
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->where('availability', 'Available')
+            ->having('distance', '<', 50)  // Only within 50 km
+            ->orderBy('distance')
+            ->limit(10)  // Get only the top 10 nearest mechanics
+            ->get();
+
         return view('ServiceRequest.create', compact('mechanics', 'ServiceTypes'));
     }
+
+
+
 
     /**
      * Store a newly created resource in storage.

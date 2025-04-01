@@ -37,22 +37,54 @@
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
-                            <div class="mb-3"> <!-- Standardized margin-bottom -->
-                                <label for="location" class="form-label">Location:</label>
-                                <div class="input-group"> <!-- Input group to combine select and icon -->
-                                    <select name="location" class="form-control bg-dark text-light">
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city }}">{{ $city }}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="input-group-text bg-dark border-dark">
-                                        <i class="fas fa-caret-down text-light"></i>
-                                    </span>
-                                </div>
+
+
+                            <div class="mb-3">
+                                <label for="latitude" class="form-label">
+                                    <i class="fas fa-map-marked-alt"></i> Latitude:
+                                </label>
+                                <input type="text" id="latitude" name="latitude"
+                                    class="form-control bg-dark text-light placeholder-light"
+                                    placeholder="Click 'Get My Location' to auto-fill" readonly>
+                                @error('latitude')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="longitude" class="form-label">
+                                    <i class="fas fa-map-marked-alt"></i> Longitude:
+                                </label>
+                                <input type="text" id="longitude" name="longitude"
+                                    class="form-control bg-dark text-light placeholder-light"
+                                    placeholder="Click 'Get My Location' to auto-fill" readonly>
+                                @error('longitude')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Button centered below fields -->
+                            <div class="mb-3 text-center">
+                                <button type="button" class="btn btn-primary" onclick="getLocation()">
+                                    <i class="fas fa-location-arrow"></i> Get My Location
+                                </button>
+                            </div>
+
+
+                            
+                            <div class="mb-3">
+                                <label for="location" class="form-label">
+                                    <i class="fas fa-city"></i> City:
+                                </label>
+                                <input type="text" id="location" name="location"
+                                    class="form-control bg-dark text-light placeholder-light"
+                                    placeholder="Click 'Get My Location' to auto-fill" readonly>
                                 @error('location')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
+
+
                             <div class="mb-3"> <!-- Standardized margin-bottom -->
                                 <label for="email" class="form-label">Email:</label>
                                 <input type="text" id="email" name="email"
@@ -98,4 +130,50 @@
             </div>
         </div>
     </div>
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        let latitude = position.coords.latitude;
+                        let longitude = position.coords.longitude;
+
+                        // Fill latitude & longitude fields
+                        document.getElementById("latitude").value = latitude;
+                        document.getElementById("longitude").value = longitude;
+
+                        // Call function to get city name
+                        getCityName(latitude, longitude);
+                    },
+                    function(error) {
+                        alert("Unable to retrieve location. Please allow location access.");
+                    }
+                );
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function getCityName(lat, lon) {
+            let apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.address && data.address.city) {
+                        document.getElementById("location").value = data.address.city;
+                    } else if (data.address && data.address.town) {
+                        document.getElementById("location").value = data.address.town;
+                    } else if (data.address && data.address.village) {
+                        document.getElementById("location").value = data.address.village;
+                    } else {
+                        document.getElementById("location").value = "City not found";
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching city name:", error);
+                    document.getElementById("location").value = "Error fetching city";
+                });
+        }
+    </script>
 </x-layout>

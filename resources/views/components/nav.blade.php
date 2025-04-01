@@ -46,9 +46,10 @@
 
                 @if (Auth::guard('mechanic')->check())
                     <a class="nav-link" href="{{ route('mechanic.profile', Auth::guard('mechanic')->user()) }}"><i
-                            class="fas fa-user-cog me-1"></i> Mechanic Home</a>
+                            class="fas fa-user-cog me-1"></i> Mechanic Profile</a>
 
-                    <a class="nav-link" href="{{ route('mechanic.emergency.show', Auth::guard('mechanic')->user()) }}"><i
+                    <a class="nav-link"
+                        href="{{ route('mechanic.emergency.show', Auth::guard('mechanic')->user()) }}"><i
                             class="fas fa-user-cog me-1"></i> Mechanic Requests</a>
                 @endif
             </div>

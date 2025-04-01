@@ -20,6 +20,10 @@ return new class extends Migration
             $table->bigInteger('phone')->unique();
             $table->string('specialization');
             $table->string('location');
+
+            $table->decimal('latitude', 10, 8)->nullable();
+            $table->decimal('longitude', 11, 8)->nullable();
+
             $table->integer('experience');
             $table->enum('availability', ['Available', 'Busy', 'Offline'])->default('Offline');
             $table->float('rating')->default(0);
