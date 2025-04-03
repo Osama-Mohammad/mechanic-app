@@ -189,8 +189,8 @@ Route::prefix('mechanic')->group(function () {
 
         // Regular Service Requests
         Route::prefix('service-request')->group(function () {
-            Route::post('/update', [EmergencyRequestController::class, 'MechanicUpdateRequestRegular'])->name('mechanic.service.update');
-            Route::post('/delete', [EmergencyRequestController::class, 'MechanicDeleteRequestRegular'])->name('mechanic.service.delete');
+            Route::post('/update', [ServiceRequestController::class, 'MechanicUpdateRequestRegular'])->name('mechanic.service.update');
+            Route::post('/delete', [ServiceRequestController::class, 'MechanicDeleteRequestRegular'])->name('mechanic.service.delete');
         });
     });
 });

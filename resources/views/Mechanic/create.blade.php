@@ -7,6 +7,34 @@
             color: #ccc;
             opacity: 1;
         }
+
+        /* Style for time inputs */
+        input[type="time"].form-control {
+            background-color: #343a40 !important;
+            color: white !important;
+            border-color: #495057;
+        }
+
+        /* Style for select multiple */
+        select[name="workdays[]"].form-control {
+            background-color: #343a40 !important;
+            color: white !important;
+            border-color: #495057;
+            height: auto;
+            min-height: 100px;
+        }
+
+        /* Style for options in select */
+        select[name="workdays[]"].form-control option {
+            background-color: #343a40;
+            color: white;
+            padding: 8px;
+        }
+
+        /* Style for selected options */
+        select[name="workdays[]"].form-control option:checked {
+            background-color: #6c757d;
+        }
     </style>
 
     <div class="container mt-5">
@@ -77,6 +105,48 @@
                                 @enderror
                             </div>
 
+                            <div class="mb-3">
+                                <label for="start_time" class="form-label">
+                                    <i class="fas fa-clock"></i> Start Time:
+                                </label>
+                                <input type="time" id="start_time" name="start_time"
+                                       class="form-control bg-dark text-light"
+                                       value="09:00" required>
+                                @error('start_time')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="end_time" class="form-label">
+                                    <i class="fas fa-clock"></i> End Time:
+                                </label>
+                                <input type="time" id="end_time" name="end_time"
+                                       class="form-control bg-dark text-light"
+                                       value="17:00" required>
+                                @error('end_time')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="workdays" class="form-label">
+                                    <i class="fas fa-calendar-alt"></i> Workdays:
+                                </label>
+                                <select id="workdays" name="workdays[]"
+                                        class="form-control bg-dark text-light"
+                                        multiple required>
+                                    @foreach ($days as $day)
+                                        <option value="{{ $day }}">{{ $day }}</option>
+                                    @endforeach
+                                </select>
+                                <small class="form-text text-light">
+                                    Hold Ctrl/Cmd to select multiple days
+                                </small>
+                                @error('workdays')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
 
                             <div class="mb-3">
                                 <label for="latitude" class="form-label">
@@ -102,14 +172,11 @@
                                 @enderror
                             </div>
 
-                            <!-- Button centered below fields -->
                             <div class="mb-3 text-center">
                                 <button type="button" class="btn btn-primary" onclick="getLocation()">
                                     <i class="fas fa-location-arrow"></i> Get My Location
                                 </button>
                             </div>
-
-
 
                             <div class="mb-3">
                                 <label for="location" class="form-label">

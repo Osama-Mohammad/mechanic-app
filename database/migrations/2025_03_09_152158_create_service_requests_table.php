@@ -15,7 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('service_type_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled'])->default('pending');
-            $table->dateTime('appointment_time');
+            // $table->dateTime('appointment_time');
+
+            $table->date('date');
+            $table->time('time');
+
+
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('mechanic_id')->constrained()->onDelete('cascade');
             $table->timestamps();

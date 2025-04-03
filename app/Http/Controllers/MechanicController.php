@@ -32,7 +32,17 @@ class MechanicController extends Controller
             "Rashaya",
             "Jbeil"
         ];
-        return view('Mechanic.create', compact('cities'));
+
+        $days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+        ];
+        return view('Mechanic.create', compact('cities', 'days'));
     }
 
     public function RegisterStore(Request $request)
@@ -52,6 +62,9 @@ class MechanicController extends Controller
             'location' => 'required',
             'longitude' => 'required|numeric',
             'latitude' => 'required|numeric',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'workdays' => 'required|array'
         ]);
 
         $mechanic = new Mechanic();
@@ -65,6 +78,9 @@ class MechanicController extends Controller
         $mechanic->location = $validated['location'];
         $mechanic->longitude = $validated['longitude'];
         $mechanic->latitude = $validated['latitude'];
+        $mechanic->start_time = $validated['start_time'];
+        $mechanic->end_time = $validated['end_time'];
+        $mechanic->workdays = json_encode($validated['workdays']);
 
         $mechanic->save();
 
@@ -73,12 +89,32 @@ class MechanicController extends Controller
 
     public function ProfilePage(Mechanic $mechanic)
     {
-        return view('Mechanic.profile', compact('mechanic'));
+        $days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+        ];
+        $selected_days = json_decode($mechanic->workdays, true);
+        return view('Mechanic.profile', compact('mechanic', 'selected_days', 'days'));
     }
 
     public function EditProfilePage(Mechanic $mechanic)
     {
-        return view('Mechanic.edit', compact('mechanic'));
+        $days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+        ];
+        $selected_days = json_decode($mechanic->workdays, true);
+        return view('Mechanic.edit', compact('mechanic', 'selected_days', 'days'));
     }
 
     public function EditProfile(Mechanic $mechanic, Request $request)
@@ -89,6 +125,9 @@ class MechanicController extends Controller
             'email' => 'required|email|unique:customers,email|unique:admins,email|unique:mechanics,email,' . $mechanic->id,
             'experience' => 'required|numeric',
             'availability' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'workdays' => 'required|array'
         ]);
         $mechanic->update($validated);
         return redirect()->route('mechanic.profile', compact('mechanic'));

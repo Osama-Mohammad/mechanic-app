@@ -88,7 +88,7 @@
                                 @foreach ($RegularRequests as $request)
                                     <tr id="regular-row-{{ $request->id }}">
                                         <td>{{ $request->serviceType->name }}</td>
-                                        <td>{{ $request->appointment_time }}</td>
+                                        <td> {{ $request->date }} At {{ $request->time }}</td>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
                                                 <select name="status"

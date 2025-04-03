@@ -14,9 +14,9 @@
                 <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i> Home</a>
 
 
-                @if (Auth::guard('admin')->check() || Auth::guard('customer')->check() || Auth::guard('mechanic')->check())
+                {{-- @if (Auth::guard('admin')->check() || Auth::guard('customer')->check() || Auth::guard('mechanic')->check())
                     <a class="nav-link" href="/chat"><i class="fas fa-comments me-1"></i> Chat</a>
-                @endif
+                @endif --}}
 
 
 

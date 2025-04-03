@@ -78,7 +78,8 @@
                             <div class="form-group">
                                 <label for="service_type_id" class="form-label">Service Type:</label>
                                 <div class="input-group">
-                                    <select name="service_type_id" id="service_type_id" class="form-control bg-dark text-light">
+                                    <select name="service_type_id" id="service_type_id"
+                                        class="form-control bg-dark text-light">
                                         @foreach ($ServiceTypes as $ServiceType)
                                             <option value="{{ $ServiceType->id }}">{{ $ServiceType->name }}</option>
                                         @endforeach
@@ -88,37 +89,65 @@
                                     </span>
                                 </div>
 
-                            <div class="form-group">
-                                <label for="appointment_time" class="form-label">Appointment Date:</label>
-                                <input type="date" name="appointment_time" id="appointment_time"
-                                    class="form-control">
-                                @if (session('reserved'))
-                                    <p class="text-warning mt-2">Already has an appointment reserved. Please pick
-                                        another date.</p>
-                                @endif
-                            </div>
-                            <div class="form-group">
-                                <label for="mechanic_id" class="form-label">Mechanics:</label>
-                                <div class="input-group">
-                                    <select name="mechanic_id" id="mechanic_id" class="form-control bg-dark text-light">
-                                        @foreach ($mechanics as $mechanic)
-                                            <option value="{{ $mechanic->id }}">
-                                                {{ $mechanic->name }}
-                                                - <span class="rating">{{ number_format($mechanic->average_rating, 1) }} ⭐</span>
+                                {{-- <div class="form-group">
+                                    <label for="appointment_time" class="form-label">Appointment Date:</label>
+                                    <input type="date" name="appointment_time" id="appointment_time"
+                                        class="form-control">
+                                    @if (session('reserved'))
+                                        <p class="text-warning mt-2">Already has an appointment reserved. Please pick
+                                            another date.</p>
+                                    @endif
+                                </div> --}}
 
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <span class="input-group-text bg-dark border-dark">
-                                        <i class="fas fa-caret-down text-light"></i>
-                                    </span>
+
+                                <div class="form-group">
+                                    <label for="date" class="form-label">Appointment Date:</label>
+                                    <input type="date" name="date" id="date" class="form-control">
+                                    @if (session('reserved'))
+                                        <p class="text-warning mt-2">Already has an appointment reserved. Please pick
+                                            another date.</p>
+                                    @endif
+                                    @error('time')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-warning">
-                                    <i class="fas fa-paper-plane"></i> Make Request
-                                </button>
-                            </div>
+
+                                <div class="mb-3">
+                                    <label for="end_time" class="form-label">
+                                        <i class="fas fa-clock"></i> Time:
+                                    </label>
+                                    <input type="time" id="time" name="time"
+                                        class="form-control bg-dark text-light" required>
+                                    @error('time')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="mechanic_id" class="form-label">Mechanics:</label>
+                                    <div class="input-group">
+                                        <select name="mechanic_id" id="mechanic_id"
+                                            class="form-control bg-dark text-light">
+                                            @foreach ($mechanics as $mechanic)
+                                                <option value="{{ $mechanic->id }}">
+                                                    {{ $mechanic->name }}
+                                                    - <span
+                                                        class="rating">{{ number_format($mechanic->average_rating, 1) }}
+                                                        ⭐</span>
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <span class="input-group-text bg-dark border-dark">
+                                            <i class="fas fa-caret-down text-light"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-warning">
+                                        <i class="fas fa-paper-plane"></i> Make Request
+                                    </button>
+                                </div>
                         </form>
                     </div>
                 </div>

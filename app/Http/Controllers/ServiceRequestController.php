@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Mechanic;
-use App\Models\ServiceRequest;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
+use App\Models\ServiceRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class ServiceRequestController extends Controller
@@ -71,14 +72,23 @@ class ServiceRequestController extends Controller
     {
         $validated = $request->validate([
             'service_type_id' => 'required',
-            'appointment_time' => 'required',
             'mechanic_id' => 'required',
-            // 'status' => 'required'
+            'time' => 'required',
+            'date' => 'required',
         ]);
+
         $validated['customer_id'] = Auth::guard('customer')->user()->id;
 
+        $workdays = json_decode(Mechanic::findOrFail($validated['mechanic_id'])->workdays, true);
+
+        if (!in_array(Carbon::parse($validated['date'])->format('l'), $workdays)) {
+            return back()->with('reserved', 'The mechanic is not available on this date. Please choose another date.');
+        }
+
+        // Correctly check for existing service requests
         $appointmentExists = ServiceRequest::where('mechanic_id', $validated['mechanic_id'])
-            ->where('appointment_time', '=', date('y-m-d', strtotime($validated['appointment_time'])))
+            ->where('date', $validated['date'])
+            ->where('time', $validated['time'])
             ->exists();
 
         if ($appointmentExists) {
@@ -87,13 +97,14 @@ class ServiceRequestController extends Controller
 
         $serviceRequest = new ServiceRequest();
         $serviceRequest->service_type_id = $validated['service_type_id'];
-        // $serviceRequest->status = $validated['status'];
-        $serviceRequest->appointment_time = $validated['appointment_time'];
         $serviceRequest->customer_id = $validated['customer_id'];
         $serviceRequest->mechanic_id = $validated['mechanic_id'];
+        $serviceRequest->date = $validated['date'];
+        $serviceRequest->time = $validated['time'];
 
         $serviceRequest->save();
-        return back()->with('success');
+
+        return back()->with('success', 'Service request created successfully.');
     }
 
     /**
@@ -126,5 +137,33 @@ class ServiceRequestController extends Controller
     public function destroy(ServiceRequest $serviceRequest)
     {
         //
+    }
+
+
+
+    public function MechanicUpdateRequestRegular(Request $request)
+    {
+        $report = ServiceRequest::find($request->id);
+
+        if (!$report) {
+            return response()->json(['msg' => 'Request not found'], 404);
+        }
+
+        $report->update(['status' => $request->status]);
+
+        return response()->json(['msg' => 'Updated successfully', 'report' => $report]);
+    }
+
+    public function MechanicDeleteRequestRegular(Request $request)
+    {
+        $report = ServiceRequest::find($request->id);
+
+        if (!$report) {
+            return response()->json(['msg' => 'Request not found'], 404);
+        }
+
+        $report->delete();
+
+        return response()->json(['msg' => 'Deleted Request Successfully', 'id' => $request->id]);
     }
 }

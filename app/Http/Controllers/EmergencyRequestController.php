@@ -114,29 +114,4 @@ class EmergencyRequestController extends Controller
         return response()->json(['msg' => 'Deleted Request Successfully', 'id' => $request->id]);
     }
 
-    public function MechanicUpdateRequestRegular(Request $request)
-    {
-        $report = ServiceRequest::find($request->id);
-
-        if (!$report) {
-            return response()->json(['msg' => 'Request not found'], 404);
-        }
-
-        $report->update(['status' => $request->status]);
-
-        return response()->json(['msg' => 'Updated successfully', 'report' => $report]);
-    }
-
-    public function MechanicDeleteRequestRegular(Request $request)
-    {
-        $report = EmergencyRequest::find($request->id);
-
-        if (!$report) {
-            return response()->json(['msg' => 'Request not found'], 404);
-        }
-
-        $report->delete();
-
-        return response()->json(['msg' => 'Deleted Request Successfully', 'id' => $request->id]);
-    }
 }

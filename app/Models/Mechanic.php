@@ -10,7 +10,7 @@ class Mechanic extends Authenticatable
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'phone', 'specialization', 'experience', 'availability', 'rating', 'email', 'password', 'location','longitude', 'latitude'];
+    protected $fillable = ['name', 'phone', 'specialization', 'experience', 'availability', 'rating', 'email', 'password', 'location', 'longitude', 'latitude', 'start_time', 'end_time', 'workdays'];
 
     public function serviceRequests()
     {
@@ -38,7 +38,9 @@ class Mechanic extends Authenticatable
     }
     /*
             What is an Accessor in Laravel?
-        In Laravel, an accessor is a method in your Eloquent model that allows you to define a custom attribute that can be accessed like a property. Accessors are typically used to compute or format values dynamically.
+        In Laravel, an accessor is a method in your Eloquent model that allows you to define a custom attribute
+         that can be accessed like a property.
+        Accessors are typically used to compute or format values dynamically.
 
         The naming convention for accessors is:
 

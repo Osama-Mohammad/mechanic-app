@@ -9,7 +9,7 @@ class ServiceRequest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['customer_id', 'mechanic_id', 'service_type_id', 'status', 'appointment_time'];
+    protected $fillable = ['customer_id', 'mechanic_id', 'service_type_id', 'status', 'date', 'time'];
 
     public function customer()
     {

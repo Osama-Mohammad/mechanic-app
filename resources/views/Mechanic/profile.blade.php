@@ -11,33 +11,78 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name:</label>
-                            <p class="form-control bg-dark text-light">{{ $mechanic->name }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone:</label>
-                            <p class="form-control bg-dark text-light">+961 {{ $mechanic->phone }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email:</label>
-                            <p class="form-control bg-dark text-light">{{ $mechanic->email }}</p>
-                        </div>
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Experience:</label>
-                            <p class="form-control bg-dark text-light">{{ $mechanic->experience }} Year(s)</p>
+                            <label class="form-label">
+                                <i class="fas fa-user-tag me-2"></i>Name:
+                            </label>
+                            <p class="form-control bg-dark text-light py-2">{{ $mechanic->name }}</p>
                         </div>
 
                         <div class="mb-3">
-                            <label for="location" class="form-label">Availability:</label>
-                            <p class="form-control bg-dark text-light">{{ $mechanic->availability }}</p>
+                            <label class="form-label">
+                                <i class="fas fa-phone me-2"></i>Phone:
+                            </label>
+                            <p class="form-control bg-dark text-light py-2">+961 {{ $mechanic->phone }}</p>
                         </div>
 
-                        <div class="d-grid">
-                            <a href="{{ route('mechanic.profile.edit', $mechanic) }}" class="btn btn-warning">
-                                <i class="fas fa-edit"></i> Edit Profile
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Email:
+                            </label>
+                            <p class="form-control bg-dark text-light py-2">{{ $mechanic->email }}</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-briefcase me-2"></i>Experience:
+                            </label>
+                            <p class="form-control bg-dark text-light py-2">
+                                {{ $mechanic->experience }} {{ $mechanic->experience == 1 ? 'Year' : 'Years' }}
+                            </p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-calendar-check me-2"></i>Availability:
+                            </label>
+                            <p class="form-control bg-dark text-light py-2">
+                                {{ $mechanic->availability }}
+                                @if($mechanic->availability == 'Available')
+                                    <span class="badge bg-success ms-2">Now Available</span>
+                                @else
+                                    <span class="badge bg-danger ms-2">Currently Busy</span>
+                                @endif
+                            </p>
+                        </div>
+
+                        <!-- Simplified Work Schedule Section -->
+                        <div class="mb-4">
+                            <label class="form-label">
+                                <i class="fas fa-calendar-alt me-2"></i>Work Schedule:
+                            </label>
+                            <div class="form-control bg-dark text-light p-3">
+                                <!-- Simple Days List -->
+                                <div class="mb-3">
+                                    <p class="mb-2"><strong>Working Days:</strong></p>
+                                    <p>{{ implode(', ', $selected_days) }}</p>
+                                </div>
+
+                                <!-- Simple Time Display -->
+                                <div>
+                                    <p class="mb-2"><strong>Working Hours:</strong></p>
+                                    <p>
+                                        {{ \Carbon\Carbon::parse($mechanic->start_time)->format('h:i A') }}
+                                        to
+                                        {{ \Carbon\Carbon::parse($mechanic->end_time)->format('h:i A') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <a href="{{ route('mechanic.profile.edit', $mechanic) }}" class="btn btn-warning py-2">
+                                <i class="fas fa-edit me-2"></i> Edit Profile
                             </a>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -113,10 +113,11 @@
                                 <tr>
                                     <td>{{ $serviceRequest->serviceType->name }}</td>
                                     <td>{{ $serviceRequest->status }}</td>
-                                    <td>{{ $serviceRequest->appointment_time }}</td>
+                                    <td>{{ $serviceRequest->date }} At {{ $serviceRequest->time }}</td>
                                     <td>{{ $serviceRequest->mechanic->name }}</td>
                                     <td>
-                                        <a href="{{ route('reviews.create.specific', $serviceRequest) }}" class="btn btn-review">
+                                        <a href="{{ route('reviews.create.specific', $serviceRequest) }}"
+                                            class="btn btn-review">
                                             <i class="fas fa-comment-dots icon"></i> Leave a review
                                         </a>
                                     </td>

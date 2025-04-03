@@ -38,6 +38,61 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
+
+
+
+
+                                <div class="mb-3">
+                                    <label for="start_time" class="form-label">
+                                        <i class="fas fa-clock"></i> Start Time:
+                                    </label>
+                                    <input type="time" id="start_time" name="start_time"
+                                        class="form-control bg-dark text-light" value="{{ $mechanic->start_time }}"
+                                        required>
+                                    @error('start_time')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="end_time" class="form-label">
+                                        <i class="fas fa-clock"></i> End Time:
+                                    </label>
+                                    <input type="time" id="end_time" name="end_time"
+                                        class="form-control bg-dark text-light" value="{{ $mechanic->end_time }}"
+                                        required>
+                                    @error('end_time')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="workdays" class="form-label">
+                                        <i class="fas fa-calendar-alt"></i> Workdays:
+                                    </label>
+                                    <select id="workdays" name="workdays[]" class="form-control bg-dark text-light"
+                                        multiple required>
+                                        @foreach ($days as $day)
+                                            <option value="{{ $day }}"
+                                                {{ in_array($day, $selected_days) ? 'selected' : '' }}>
+                                                {{ $day }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <small class="form-text text-light">
+                                        Hold Ctrl/Cmd to select multiple days
+                                    </small>
+                                    @error('workdays')
+                                        <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+
+
+
+
+
+
                                 <div class="mb-3">
                                     <label for="experience" class="form-label">Experience:</label>
                                     <input type="text" class="form-control bg-dark text-light"
