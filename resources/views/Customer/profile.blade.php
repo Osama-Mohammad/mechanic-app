@@ -23,10 +23,56 @@
                                 <label for="email" class="form-label">Email:</label>
                                 <p class="form-control bg-dark text-light">{{ $customer->email }}</p>
                             </div>
-                            <div class="mb-3">
+
+                            {{--                             <div class="mb-3">
                                 <label for="location" class="form-label">Location:</label>
                                 <p class="form-control bg-dark text-light">{{ $customer->location }}</p>
+                            </div> --}}
+
+
+
+
+                            <div class="mb-3">
+                                <label for="latitude" class="form-label">
+                                    <i class="fas fa-map-marked-alt"></i> Latitude:
+                                </label>
+                                <input type="text" id="latitude" name="latitude"
+                                    class="form-control bg-dark text-light placeholder-light"
+                                    value="{{ $customer->latitude }}" readonly>
+                                @error('latitude')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
                             </div>
+
+                            <div class="mb-3">
+                                <label for="longitude" class="form-label">
+                                    <i class="fas fa-map-marked-alt"></i> Longitude:
+                                </label>
+                                <input type="text" id="longitude" name="longitude"
+                                    class="form-control bg-dark text-light placeholder-light"
+                                    value="{{ $customer->longitude }}" readonly>
+                                @error('longitude')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="location" class="form-label">
+                                    <i class="fas fa-city"></i> City:
+                                </label>
+                                <input type="text" id="location" name="location"
+                                    class="form-control bg-dark text-light placeholder-light"
+                                    value="{{ $customer->location }}" readonly>
+
+                                @error('location')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
+
+
+
 
                             <div class="d-grid">
                                 <a href=" {{ route('customer.profile.edit', $customer->id) }}" class="btn btn-warning">

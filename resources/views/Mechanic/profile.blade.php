@@ -54,6 +54,49 @@
                             </p>
                         </div>
 
+
+
+                        <div class="mb-3">
+                            <label for="latitude" class="form-label">
+                                <i class="fas fa-map-marked-alt"></i> Latitude:
+                            </label>
+                            <input type="text" id="latitude" name="latitude"
+                                class="form-control bg-dark text-light placeholder-light"
+                                value="{{ $mechanic->latitude }}" readonly>
+                            @error('latitude')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="longitude" class="form-label">
+                                <i class="fas fa-map-marked-alt"></i> Longitude:
+                            </label>
+                            <input type="text" id="longitude" name="longitude"
+                                class="form-control bg-dark text-light placeholder-light"
+                                value="{{ $mechanic->longitude }}" readonly>
+                            @error('longitude')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="location" class="form-label">
+                                <i class="fas fa-city"></i> City:
+                            </label>
+                            <input type="text" id="location" name="location"
+                                class="form-control bg-dark text-light placeholder-light"
+                                value="{{ $mechanic->location }}" readonly>
+
+                            @error('location')
+                                <div class="text-danger small">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+
+
+
+
                         <!-- Simplified Work Schedule Section -->
                         <div class="mb-4">
                             <label class="form-label">

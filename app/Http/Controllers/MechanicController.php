@@ -127,7 +127,10 @@ class MechanicController extends Controller
             'availability' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
             'workdays' => 'required|array'
+
         ]);
         $mechanic->update($validated);
         return redirect()->route('mechanic.profile', compact('mechanic'));

@@ -87,6 +87,8 @@ class CustomerController extends Controller
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15|unique:customers,phone,' . $id,
             'location' => 'required|string|max:255',
+            'latitude' => 'nullable|numeric',
+            'longitude' => 'nullable|numeric',
             'email' => 'required|email|unique:customers,email,' . $id . '|unique:mechanics,email|unique:admins,email',
         ]);
         $customer = Customer::find($id);
