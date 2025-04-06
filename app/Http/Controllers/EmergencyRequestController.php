@@ -84,7 +84,7 @@ class EmergencyRequestController extends Controller
     public function MechanicRequest(Mechanic $mechanic)
     {
         $requests = $mechanic->emergencyRequests;
-        $RegularRequests = $mechanic->serviceRequests;
+        $RegularRequests = ServiceRequest::where('mechanic_id', $mechanic->id)->with('customer')->get();
         return view('EmergencyRequest.MechanicRequests', compact('mechanic', 'requests', 'RegularRequests'));
     }
 
@@ -113,5 +113,4 @@ class EmergencyRequestController extends Controller
 
         return response()->json(['msg' => 'Deleted Request Successfully', 'id' => $request->id]);
     }
-
 }

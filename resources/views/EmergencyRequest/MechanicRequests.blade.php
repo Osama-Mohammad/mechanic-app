@@ -4,6 +4,58 @@
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
+
+                <div class="card bg-dark text-white">
+                    <div class="card-header bg-primary">
+                        <h3 class="card-title text-center">
+                            <i class="fas fa-wrench"></i> Pending Requests For Mechanic: {{ $mechanic->name }}
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-dark table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-toolbox"></i> Description</th>
+                                    <th><i class="fas fa-calendar-check"></i> Appointment Time</th>
+                                    <th><i class="fas fa-info-circle"></i> Location</th>
+                                    <th><i class="fas fa-user"></i> Customer</th>
+                                    <th><i class="fas fa-cogs"></i> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($RegularRequests as $request)
+                                    @if ($request->status === 'pending')
+                                        <tr id="pending-row-{{ $request->id }}">
+                                            <td>{{ $request->serviceType->name }}</td>
+                                            <td> {{ $request->date }} At {{ $request->time }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    {{ $request->customer?->location ?? 'N/A' }}
+                                                </div>
+                                            </td>
+                                            <td>{{ $request->customer->name }}</td>
+                                            <td>
+                                                <button type="submit"
+                                                    class="btn btn-success btn-sm BtnAcceptRegularRequest"
+                                                    data-id="{{ $request->id }}">
+                                                    <i class="fas fa-check"></i> Accept
+                                                </button>
+                                                <button type="submit"
+                                                    class="btn btn-danger btn-sm BtnRejectRegularRequest"
+                                                    data-id="{{ $request->id }}">
+                                                    <i class="fas fa-trash"></i> Reject
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+
                 <!-- Emergency Requests -->
                 <div class="card bg-dark text-white mb-4">
                     <div class="card-header bg-danger">
@@ -74,7 +126,7 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <table class="table table-dark table-hover">
+                        <table class="table table-dark table-hover" id="regular-requests-table">
                             <thead>
                                 <tr>
                                     <th><i class="fas fa-toolbox"></i> Service Type</th>
@@ -86,41 +138,43 @@
                             </thead>
                             <tbody>
                                 @foreach ($RegularRequests as $request)
-                                    <tr id="regular-row-{{ $request->id }}">
-                                        <td>{{ $request->serviceType->name }}</td>
-                                        <td> {{ $request->date }} At {{ $request->time }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <select name="status"
-                                                    class="form-select form-select-sm bg-dark text-white w-auto"
-                                                    id="regular-status-{{ $request->id }}">
-                                                    <option value="pending"
-                                                        {{ $request->status === 'pending' ? 'selected' : '' }}><i
-                                                            class="fas fa-clock"></i> Pending</option>
-                                                    <option value="inprogress"
-                                                        {{ $request->status === 'inprogress' ? 'selected' : '' }}><i
-                                                            class="fas fa-tools"></i> In Progress</option>
-                                                    <option value="completed"
-                                                        {{ $request->status === 'completed' ? 'selected' : '' }}><i
-                                                            class="fas fa-check-circle"></i> Completed</option>
-                                                    <option value="canceled"
-                                                        {{ $request->status === 'canceled' ? 'selected' : '' }}><i
-                                                            class="fas fa-times-circle"></i> Canceled</option>
-                                                </select>
-                                                <button class="btn btn-warning btn-sm px-3 BtnSaveRegularRequest"
+                                    @if ($request->status != 'pending' && $request->status != 'canceled')
+                                        <tr id="regular-row-{{ $request->id }}">
+                                            <td>{{ $request->serviceType->name }}</td>
+                                            <td> {{ $request->date }} At {{ $request->time }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <select name="status"
+                                                        class="form-select form-select-sm bg-dark text-white w-auto"
+                                                        id="regular-status-{{ $request->id }}">
+
+                                                        <option value="inprogress"
+                                                            {{ $request->status === 'inprogress' ? 'selected' : '' }}>
+                                                            <i class="fas fa-tools"></i> In Progress
+                                                        </option>
+                                                        <option value="completed"
+                                                            {{ $request->status === 'completed' ? 'selected' : '' }}><i
+                                                                class="fas fa-check-circle"></i> Completed</option>
+                                                        <option value="canceled"
+                                                            {{ $request->status === 'canceled' ? 'selected' : '' }}><i
+                                                                class="fas fa-times-circle"></i> Canceled</option>
+                                                    </select>
+                                                    <button class="btn btn-warning btn-sm px-3 BtnSaveRegularRequest"
+                                                        data-id="{{ $request->id }}">
+                                                        <i class="fas fa-save"></i> Save
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>{{ $request->customer->name }}</td>
+                                            <td>
+                                                <button type="submit"
+                                                    class="btn btn-danger btn-sm BtnDeleteRegularRequest"
                                                     data-id="{{ $request->id }}">
-                                                    <i class="fas fa-save"></i> Save
+                                                    <i class="fas fa-trash"></i> Delete
                                                 </button>
-                                            </div>
-                                        </td>
-                                        <td>{{ $request->customer->name }}</td>
-                                        <td>
-                                            <button type="submit" class="btn btn-danger btn-sm BtnDeleteRegularRequest"
-                                                data-id="{{ $request->id }}">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </td>
-                                    </tr>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -207,6 +261,7 @@
                     success: function(data) {
                         alert(data.msg);
                         $('#regular-status-' + data.report.id).val(data.report.status);
+                        location.reload();
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
@@ -237,6 +292,101 @@
                     error: function(xhr) {
                         console.log(xhr.responseText);
                         alert('Failed to update request');
+                    }
+                });
+            });
+
+            $(document).on('click', '.BtnAcceptRegularRequest', function() {
+                let id = $(this).data('id');
+
+                if (!confirm("Are you sure you want to accept this request?")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('mechanic.service.accept') }}',
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        alert(data.msg);
+
+                        // Remove the pending row
+                        $('#pending-row-' + id).remove();
+
+                        // Append to regular requests table if data.request exists
+                        if (data.request) {
+                            let newRow = `
+                                <tr id="regular-row-${data.request.id}">
+                                    <td>${data.request.serviceType.name || 'N/A'}</td>
+                                    <td>${data.request.date || 'N/A'} At ${data.request.time || 'N/A'}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <select name="status" class="form-select form-select-sm bg-dark text-white w-auto" id="regular-status-${data.request.id}">
+                                                <option value="inprogress" ${data.request.status === 'inprogress' ? 'selected' : ''}>
+                                                    In Progress
+                                                </option>
+                                                <option value="completed" ${data.request.status === 'completed' ? 'selected' : ''}>
+                                                    Completed
+                                                </option>
+                                                <option value="canceled" ${data.request.status === 'canceled' ? 'selected' : ''}>
+                                                    Canceled
+                                                </option>
+                                            </select>
+                                            <button class="btn btn-warning btn-sm px-3 BtnSaveRegularRequest" data-id="${data.request.id}">
+                                                <i class="fas fa-save"></i> Save
+                                            </button>
+                                        </div>
+                                    </td>
+                                    <td>${data.request.customer?.name || 'N/A'}</td>
+                                    <td>
+                                        <button type="submit" class="btn btn-danger btn-sm BtnDeleteRegularRequest" data-id="${data.request.id}">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+
+                            $('#regular-requests-table tbody').append(newRow);
+                        } else {
+                            console.error('Request data is missing in the response:', data);
+                        }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Failed to accept request');
+                    }
+                });
+            });
+
+            $(document).on('click', '.BtnRejectRegularRequest', function() {
+                let id = $(this).data('id');
+
+                if (!confirm("Are you sure you want to reject this request?")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('mechanic.service.reject') }}',
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        alert(data.msg);
+
+                        // Remove the pending row
+                        $('#pending-row-' + id).remove();
+
+                        // Optionally, you can also remove the row from the regular requests table if it exists
+                        $('#regular-row-' + id).remove();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Failed to reject request');
                     }
                 });
             });

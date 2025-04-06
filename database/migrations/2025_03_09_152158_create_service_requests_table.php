@@ -21,6 +21,11 @@ return new class extends Migration
             $table->time('time');
 
 
+
+            // $table->boolean('mechanic_accepted')->nullable();  Nullable for initial state
+
+
+
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('mechanic_id')->constrained()->onDelete('cascade');
             $table->timestamps();

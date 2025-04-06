@@ -191,6 +191,9 @@ Route::prefix('mechanic')->group(function () {
         Route::prefix('service-request')->group(function () {
             Route::post('/update', [ServiceRequestController::class, 'MechanicUpdateRequestRegular'])->name('mechanic.service.update');
             Route::post('/delete', [ServiceRequestController::class, 'MechanicDeleteRequestRegular'])->name('mechanic.service.delete');
+
+            Route::post('/accept', [ServiceRequestController::class, 'MechanicAcceptRequestRegular'])->name('mechanic.service.accept');
+            Route::post('/reject', [ServiceRequestController::class, 'MechanicRejectRequestRegular'])->name('mechanic.service.reject');
         });
     });
 });

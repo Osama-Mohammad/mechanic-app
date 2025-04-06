@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\ServiceRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\ServiceRequestDeclined;
 
 class ServiceRequestController extends Controller
 {
@@ -165,5 +166,42 @@ class ServiceRequestController extends Controller
         $report->delete();
 
         return response()->json(['msg' => 'Deleted Request Successfully', 'id' => $request->id]);
+    }
+
+
+    public function MechanicAcceptRequestRegular(Request $request)
+    {
+        $serviceRequest = ServiceRequest::with('serviceType', 'customer')->findOrFail($request->id);
+
+        if ($serviceRequest->status !== 'pending') {
+            return response()->json(['msg' => 'Request is not in a pending state.'], 400);
+        }
+
+        $serviceRequest->update(['status' => 'inprogress']);
+
+        return response()->json([
+            'msg' => 'Request accepted successfully.',
+            'request' => $serviceRequest,
+        ]);
+    }
+
+    public function MechanicRejectRequestRegular(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|exists:service_requests,id',
+        ]);
+
+        $report = ServiceRequest::findOrFail($request->id);
+        $report->status = 'canceled';
+        $report->save();
+
+
+        $customer = $report->customer;
+        $mechanic = $report->mechanic;
+
+        if ($customer) {
+            $customer->notify(new ServiceRequestDeclined($mechanic->name, $report->date, $report->time));
+        }
+        return response()->json(['msg' => 'Rejected Request Successfully', 'id' => $request->id, 'request' => $report]);
     }
 }
