@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\EmergencyRequestController;
-use App\Http\Controllers\ReviewController;
 
 
 
@@ -137,6 +138,7 @@ Route::prefix('customer')->group(function () {
             Route::put('/update/{review}', [ReviewController::class, 'update'])->name('reviews.update');
             // Route::get('/{customer}', [CustomerController::class, 'AllReviews'])->name('reviews.customer');
         });
+
     });
 });
 /* ------------------------------------------------------------End Customer------------------------------------------------------------ */
