@@ -89,23 +89,51 @@
                                     </span>
                                 </div>
 
-                                {{-- <div class="form-group">
-                                    <label for="appointment_time" class="form-label">Appointment Date:</label>
-                                    <input type="date" name="appointment_time" id="appointment_time"
-                                        class="form-control">
-                                    @if (session('reserved'))
-                                        <p class="text-warning mt-2">Already has an appointment reserved. Please pick
-                                            another date.</p>
-                                    @endif
-                                </div> --}}
-
-
                                 <div class="form-group">
                                     <label for="date" class="form-label">Appointment Date:</label>
                                     <input type="date" name="date" id="date" class="form-control">
                                     @if (session('reserved'))
-                                        <p class="text-warning mt-2">Already has an appointment reserved. Please pick
-                                            another date.</p>
+                                        <p class="text-warning mt-2">{{ session('reserved') }}</p>
+                                        <div class="form-control bg-dark text-light p-3">
+                                            <!-- Simple Days List -->
+                                            <div class="mb-3">
+                                                <p class="mb-2"><strong>Working Days:</strong></p>
+                                                <p>{{ implode(', ', session('workdays', [])) }}
+                                            </div>
+                                            <!-- Simple Time Display -->
+                                            <div>
+                                                <p class="mb-2"><strong>Working Hours:</strong></p>
+                                                <p>
+                                                    {{ \Carbon\Carbon::parse(session('start_time'))->format('h:i A') }}
+                                                    to
+                                                    {{ \Carbon\Carbon::parse(session('end_time'))->format('h:i A') }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if (session('error'))
+                                        <p class="text-warning mt-2">{{ session('error') }}</p>
+                                        <div class="mb-4">
+                                            <label class="form-label">
+                                                <i class="fas fa-calendar-alt me-2"></i>Work Schedule:
+                                            </label>
+                                            <div class="form-control bg-dark text-light p-3">
+                                                <!-- Simple Days List -->
+                                                <div class="mb-3">
+                                                    <p class="mb-2"><strong>Working Days:</strong></p>
+                                                    <p>{{ implode(', ', session('workdays', [])) }}
+                                                </div>
+                                                <!-- Simple Time Display -->
+                                                <div>
+                                                    <p class="mb-2"><strong>Working Hours:</strong></p>
+                                                    <p>
+                                                        {{ \Carbon\Carbon::parse(session('start_time'))->format('h:i A') }}
+                                                        to
+                                                        {{ \Carbon\Carbon::parse(session('end_time'))->format('h:i A') }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                     @error('time')
                                         <div class="text-danger small">{{ $message }}</div>

@@ -75,34 +75,55 @@ class ServiceRequestController extends Controller
             'service_type_id' => 'required',
             'mechanic_id' => 'required',
             'time' => 'required',
-            'date' => 'required',
+            'date' => 'required|date|after_or_equal:today',
         ]);
 
         $validated['customer_id'] = Auth::guard('customer')->user()->id;
 
-        $workdays = json_decode(Mechanic::findOrFail($validated['mechanic_id'])->workdays, true);
+        $mechanic = Mechanic::findOrFail($validated['mechanic_id']);
+        $workdays = json_decode($mechanic->workdays, true);
 
-        if (!in_array(Carbon::parse($validated['date'])->format('l'), $workdays)) {
-            return back()->with('reserved', 'The mechanic is not available on this date. Please choose another date.');
+        // Check if the selected date is within the mechanic's workdays
+        $selectedDay = Carbon::parse($validated['date'])->format('l'); // Get the day of the week (e.g., Monday)
+        if (!in_array($selectedDay, $workdays)) {
+            return back()->with([
+                'error' => 'The mechanic is not available on this date. Please choose another date.',
+                'workdays' => $workdays,
+                'start_time' => $mechanic->start_time,
+                'end_time' => $mechanic->end_time,
+                'selected_days' => $selectedDay,
+            ]);
         }
 
-        // Correctly check for existing service requests
+        // Check if the selected time is within the mechanic's working hours
+        if ($validated['time'] < $mechanic->start_time || $validated['time'] > $mechanic->end_time) {
+            return back()->with([
+                'error' => 'The selected time is outside the mechanic\'s working hours. Please choose another time.',
+                'workdays' => $workdays,
+                'start_time' => $mechanic->start_time,
+                'end_time' => $mechanic->end_time,
+                'selected_days' => $selectedDay,
+            ]);
+        }
+
+
+        // Check for existing service requests at the same time
         $appointmentExists = ServiceRequest::where('mechanic_id', $validated['mechanic_id'])
             ->where('date', $validated['date'])
             ->where('time', $validated['time'])
             ->exists();
 
         if ($appointmentExists) {
-            return back()->with('reserved', 'The mechanic is already booked at this time. Please choose another date.');
+            return back()->with('reserved', 'The mechanic is already booked at this time. Please choose another time.');
         }
 
+        // Create the service request
         $serviceRequest = new ServiceRequest();
         $serviceRequest->service_type_id = $validated['service_type_id'];
         $serviceRequest->customer_id = $validated['customer_id'];
         $serviceRequest->mechanic_id = $validated['mechanic_id'];
         $serviceRequest->date = $validated['date'];
         $serviceRequest->time = $validated['time'];
-
         $serviceRequest->save();
 
         return back()->with('success', 'Service request created successfully.');

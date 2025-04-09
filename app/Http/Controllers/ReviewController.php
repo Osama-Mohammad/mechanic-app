@@ -54,7 +54,7 @@ class ReviewController extends Controller
 
         $review->save();
 
-        return back();
+        return redirect()->route('service-requests.index')->with('success', 'Review updated successfully!');
     }
 
     /**
