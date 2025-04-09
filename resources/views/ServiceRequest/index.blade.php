@@ -110,16 +110,31 @@
                         </thead>
                         <tbody>
                             @forelse ($serviceRequests as $serviceRequest)
-                                <tr>
+                                <tr id="regular-row-{{ $serviceRequest->id }}">
                                     <td>{{ $serviceRequest->serviceType->name }}</td>
                                     <td>{{ $serviceRequest->status }}</td>
                                     <td>{{ $serviceRequest->date }} At {{ $serviceRequest->time }}</td>
                                     <td>{{ $serviceRequest->mechanic->name }}</td>
                                     <td>
-                                        <a href="{{ route('reviews.create.specific', $serviceRequest) }}"
-                                            class="btn btn-review">
-                                            <i class="fas fa-comment-dots icon"></i> Leave a review
-                                        </a>
+                                        @if ($serviceRequest->status != 'canceled')
+                                            <a href="{{ route('reviews.create.specific', $serviceRequest) }}"
+                                                class="btn btn-review">
+                                                <i class="fas fa-comment-dots icon"></i> Leave a review
+                                            </a>
+                                            @if ($serviceRequest->status == 'completed')
+                                                <button class="btn btn-success BtnDeleteRegularRequest"
+                                                    data-id="{{ $serviceRequest->id }}">
+                                                    <i class="fas fa-check "></i>
+                                                    Pay for Service
+                                                </button>
+                                            @endif
+                                        @else
+                                            <button class="btn btn-danger BtnDeleteRegularRequest"
+                                                data-id="{{ $serviceRequest->id }}">
+                                                <i class="fas fa-trash "></i>
+                                                Delete Service Request
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                             @empty
@@ -140,4 +155,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.BtnDeleteRegularRequest', function() {
+                let id = $(this).data('id');
+
+                if (!confirm(
+                        "Are you sure you want to delete this request? This action cannot be undone.")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('customer.service.delete') }}',
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        alert(data.msg);
+                        $('#regular-row-' + data.id).remove();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Failed to update request');
+                    }
+                });
+            });
+        });
+    </script>
 </x-layout>

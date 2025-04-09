@@ -316,23 +316,22 @@
                         // Remove the pending row
                         $('#pending-row-' + id).remove();
 
-                        // Append to regular requests table if data.request exists
                         if (data.request) {
                             let newRow = `
                                 <tr id="regular-row-${data.request.id}">
-                                    <td>${data.request.serviceType.name || 'N/A'}</td>
+                                    <td>${data.request.serviceType?.name || 'N/A'}</td>
                                     <td>${data.request.date || 'N/A'} At ${data.request.time || 'N/A'}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
                                             <select name="status" class="form-select form-select-sm bg-dark text-white w-auto" id="regular-status-${data.request.id}">
                                                 <option value="inprogress" ${data.request.status === 'inprogress' ? 'selected' : ''}>
-                                                    In Progress
+                                                    <i class="fas fa-tools"></i> In Progress
                                                 </option>
                                                 <option value="completed" ${data.request.status === 'completed' ? 'selected' : ''}>
-                                                    Completed
+                                                    <i class="fas fa-check-circle"></i> Completed
                                                 </option>
                                                 <option value="canceled" ${data.request.status === 'canceled' ? 'selected' : ''}>
-                                                    Canceled
+                                                    <i class="fas fa-times-circle"></i> Canceled
                                                 </option>
                                             </select>
                                             <button class="btn btn-warning btn-sm px-3 BtnSaveRegularRequest" data-id="${data.request.id}">
@@ -351,7 +350,8 @@
 
                             $('#regular-requests-table tbody').append(newRow);
                         } else {
-                            console.error('Request data is missing in the response:', data);
+                            console.error('Request data missing in response:', data);
+                            alert('Request accepted, but could not update table.');
                         }
                     },
                     error: function(xhr) {

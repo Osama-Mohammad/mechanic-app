@@ -181,7 +181,18 @@ class ServiceRequestController extends Controller
 
         return response()->json([
             'msg' => 'Request accepted successfully.',
-            'request' => $serviceRequest,
+            'request' => [
+                'id' => $serviceRequest->id,
+                'serviceType' => [
+                    'name' => $serviceRequest->serviceType->name ?? 'N/A',
+                ],
+                'date' => $serviceRequest->date,
+                'time' => $serviceRequest->time,
+                'status' => $serviceRequest->status,
+                'customer' => [
+                    'name' => $serviceRequest->customer->name ?? 'N/A',
+                ]
+            ],
         ]);
     }
 
