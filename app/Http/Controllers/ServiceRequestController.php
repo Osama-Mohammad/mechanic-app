@@ -41,7 +41,7 @@ class ServiceRequestController extends Controller
         $customer = Auth::guard('customer')->user();
 
         // Get all service types
-        $ServiceTypes = ServiceType::all();
+       // $ServiceTypes = ServiceType::all();
 
         // Get the nearest mechanics using the Haversine formula
         $mechanics = Mechanic::selectRaw(
@@ -52,6 +52,7 @@ class ServiceRequestController extends Controller
             )) AS distance",
             [$customer->latitude, $customer->longitude, $customer->latitude]
         )
+            ->with('serviceTypes')
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->where('availability', 'Available')
@@ -60,7 +61,8 @@ class ServiceRequestController extends Controller
             ->limit(10)  // Get only the top 10 nearest mechanics
             ->get();
 
-        return view('ServiceRequest.create', compact('mechanics', 'ServiceTypes'));
+            // , 'ServiceTypes'
+        return view('ServiceRequest.create', compact('mechanics'));
     }
 
 

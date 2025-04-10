@@ -10,8 +10,7 @@ use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\EmergencyRequestController;
-
-
+use App\Models\ServiceType;
 
 /* ------------------------------------------------------------Start Auth------------------------------------------------------------ */
 // Authentication Routes
@@ -74,6 +73,8 @@ Route::prefix('customer')->group(function () {
 
             Route::post('/accept', [ServiceRequestController::class, 'MechanicAcceptRequestRegular'])->name('customer.service.accept');
             Route::post('/reject', [ServiceRequestController::class, 'MechanicRejectRequestRegular'])->name('customer.service.reject');
+
+            Route::post('/change-ServiceType', [ServiceTypeController::class, 'ChangeServiceType'])->name('customer.serviceType.Change');
         });
 
         // Review Routes
@@ -121,8 +122,15 @@ Route::prefix('mechanic')->group(function () {
 
         // Service Types
         Route::prefix('service-type')->group(function () {
-            Route::get('/create', [ServiceTypeController::class, 'create'])->name('service-type.create');
-            Route::post('/store', [ServiceTypeController::class, 'store'])->name('service-type.store');
+            Route::get('index', [ServiceTypeController::class, 'index'])->name('mechanic.service-type.index');
+
+            Route::get('/create', [ServiceTypeController::class, 'create'])->name('mechanic.service-type.create');
+            Route::post('/store', [ServiceTypeController::class, 'store'])->name('mechanic.service-type.store');
+
+            Route::get('/edit/{ServiceType}', [ServiceTypeController::class, 'edit'])->name('mechanic.service-type.edit');
+            Route::put('/update/{ServiceType}', [ServiceTypeController::class, 'update'])->name('mechanic.service-type.update');
+
+            Route::post('/delete', [ServiceTypeController::class, 'destroy'])->name('mechanic.service-type.delete');
         });
     });
 });

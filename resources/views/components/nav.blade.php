@@ -51,6 +51,9 @@
                     <a class="nav-link"
                         href="{{ route('mechanic.emergency.show', Auth::guard('mechanic')->user()) }}"><i
                             class="fas fa-user-cog me-1"></i> Mechanic Requests</a>
+
+                    <a class="nav-link" href="{{ route('mechanic.service-type.index') }}"><i
+                            class="fas fa-user-cog me-1"></i>Own Service Types</a>
                 @endif
             </div>
 

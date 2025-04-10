@@ -36,6 +36,17 @@ class Mechanic extends Authenticatable
     {
         return $this->reviews()->avg('rating') ?? 0;
     }
+
+    public function serviceTypes()
+    {
+        return $this->hasMany(ServiceType::class);
+    }
+
+    public function getPriceAttribute()
+    {
+        return $this->serviceTypes()->price ?? 0;
+    }
+
     /*
             What is an Accessor in Laravel?
         In Laravel, an accessor is a method in your Eloquent model that allows you to define a custom attribute

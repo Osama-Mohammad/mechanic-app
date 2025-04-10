@@ -80,9 +80,12 @@
                                 <div class="input-group">
                                     <select name="service_type_id" id="service_type_id"
                                         class="form-control bg-dark text-light">
-                                        @foreach ($ServiceTypes as $ServiceType)
-                                            <option value="{{ $ServiceType->id }}">{{ $ServiceType->name }}</option>
-                                        @endforeach
+                                        @if ($mechanics->isNotEmpty())
+                                            @foreach ($mechanics->first()->serviceTypes as $serviceType)
+                                                <option value="{{ $serviceType->id }}">{{ $serviceType->name }} -
+                                                    ${{ number_format($serviceType->price, 2) }}</option>
+                                            @endforeach
+                                        @endif
                                     </select>
                                     <span class="input-group-text bg-dark border-dark">
                                         <i class="fas fa-caret-down text-light"></i>
@@ -191,4 +194,47 @@
             </div>
         </div>
     @endif
+
+    <script>
+        $(document).ready(function() {
+            // Trigger change on initial load to populate service types for default mechanic
+            $('#mechanic_id').trigger('change');
+
+            $('#mechanic_id').on('change', function() {
+                $('#service_type_id').html('<option value="">Loading services...</option>');
+                let id = $(this).val();
+
+                $.ajax({
+                    url: '{{ route('customer.serviceType.Change') }}',
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        $('#service_type_id').empty();
+                        // Check if there are service types
+                        if (response.ServiceTypes && response.ServiceTypes.length > 0) {
+                            response.ServiceTypes.forEach(function(serviceType) {
+                                let price = parseFloat(serviceType.price);
+                                let formattedPrice = isNaN(price) ? '0.00' : price.toFixed(2);
+                                $('#service_type_id').append(
+                                    `<option value="${serviceType.id}">${serviceType.name} - $${formattedPrice}</option>`
+                                );
+                            });
+                            console.log(response.ServiceTypes)
+
+                        } else {
+                            $('#service_type_id').append(
+                                `<option value="">No services available for this mechanic</option>`
+                            );
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Error:', xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 </x-layout>

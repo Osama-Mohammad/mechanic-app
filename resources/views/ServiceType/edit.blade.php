@@ -67,19 +67,20 @@
                 <div class="card bg-secondary text-white">
                     <div class="card-header bg-dark">
                         <h3 class="card-title text-center">
-                            <i class="fas fa-plus-circle"></i> Create New Service Type
+                            <i class="fas fa-plus-circle"></i> Edit Service Type :{{ $serviceType->name }}
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('mechanic.service-type.store') }}" method="POST">
+                        <form action="{{ route('mechanic.service-type.update', $serviceType->id) }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <div class="form-group">
                                 <label for="name" class="form-label">
                                     <i class="fas fa-tag"></i> Service Type Name:
                                 </label>
                                 <input type="text" name="name" id="name"
                                     class="form-control bg-dark text-light placeholder-light"
-                                    placeholder="Enter Service Type Name" required>
+                                    value="{{ $serviceType->name }}" required>
                             </div>
 
                             <div class="form-group">
@@ -90,13 +91,13 @@
                                     <span class="input-group-text bg-dark text-light">$</span>
                                     <input type="number" name="price" id="price"
                                         class="form-control bg-dark text-light placeholder-light"
-                                        placeholder="Enter Service Type Price" required>
+                                        value="{{ number_format($serviceType->price, 0) }}" required>
                                 </div>
                             </div>
 
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-warning">
-                                    <i class="fas fa-save"></i> Create Service Type
+                                    <i class="fas fa-save"></i> Update Service Type
                                 </button>
                             </div>
                         </form>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('status', ['success', 'failed', 'pending']);
             $table->timestamp('transaction_date');
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
-            $table->foreignId('service_request_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_request_id')->constrained('service_requests')->onDelete('cascade');
             $table->timestamps();
         });
     }
