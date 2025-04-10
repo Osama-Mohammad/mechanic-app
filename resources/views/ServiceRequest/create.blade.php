@@ -121,7 +121,8 @@
                                                 <!-- Simple Days List -->
                                                 <div class="mb-3">
                                                     <p class="mb-2"><strong>Working Days:</strong></p>
-                                                    <p>{{ implode(', ', session('workdays', [])) }}
+                                                    {{-- {{ implode(', ', session('workdays', [])) here the ,[] means it defaults to empty array }} --}}
+                                                    <>{{ implode(', ', session('workdays', [])) }}
                                                 </div>
                                                 <!-- Simple Time Display -->
                                                 <div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MechanicController;
+use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\EmergencyRequestController;
 
@@ -116,6 +117,12 @@ Route::prefix('mechanic')->group(function () {
 
             Route::post('/accept', [ServiceRequestController::class, 'MechanicAcceptRequestRegular'])->name('mechanic.service.accept');
             Route::post('/reject', [ServiceRequestController::class, 'MechanicRejectRequestRegular'])->name('mechanic.service.reject');
+        });
+
+        // Service Types
+        Route::prefix('service-type')->group(function () {
+            Route::get('/create', [ServiceTypeController::class, 'create'])->name('service-type.create');
+            Route::post('/store', [ServiceTypeController::class, 'store'])->name('service-type.store');
         });
     });
 });
