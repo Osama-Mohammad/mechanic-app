@@ -1,16 +1,17 @@
 <?php
 
+use App\Models\ServiceType;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\ServiceTypeController;
 use App\Http\Controllers\ServiceRequestController;
 use App\Http\Controllers\EmergencyRequestController;
-use App\Models\ServiceType;
 
 /* ------------------------------------------------------------Start Auth------------------------------------------------------------ */
 // Authentication Routes
@@ -86,6 +87,11 @@ Route::prefix('customer')->group(function () {
             Route::put('/update/{review}', [ReviewController::class, 'update'])->name('reviews.update');
             // Route::get('/{customer}', [CustomerController::class, 'AllReviews'])->name('reviews.customer');
         });
+
+
+        Route::get('/checkout/{serviceRequestId}', [PaymentController::class, 'checkout'])->name('payment.checkout');
+        Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+        Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
     });
 });
 /* ------------------------------------------------------------End Customer------------------------------------------------------------ */

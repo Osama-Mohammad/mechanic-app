@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('service_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_type_id')->constrained()->onDelete('cascade');
-            $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'inprogress', 'completed', 'canceled', 'paid'])->default('pending');
             // $table->dateTime('appointment_time');
 
             $table->date('date');

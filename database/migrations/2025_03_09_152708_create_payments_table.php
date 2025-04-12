@@ -13,13 +13,20 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount', 10, 2);
+
+            $table->decimal('amount', 10, 2); // Payment amount
             $table->enum('method', ['creditCard', 'wishmoney', 'OMT', 'Cash']);
             $table->enum('status', ['success', 'failed', 'pending']);
-            $table->timestamp('transaction_date');
+            $table->timestamp('transaction_date')->useCurrent(); // Defaults to now
+
+            // Foreign keys
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
-            $table->foreignId('service_request_id')->constrained('service_requests')->onDelete('cascade');
-            $table->timestamps();
+            $table->foreignId('service_request_id')->constrained()->onDelete('cascade');
+
+            $table->string('reference_id')->unique();
+
+
+            $table->timestamps(); // created_at, updated_at
         });
     }
 
@@ -31,3 +38,13 @@ return new class extends Migration
         Schema::dropIfExists('payments');
     }
 };
+
+
+/* $table->id();
+$table->decimal('amount', 10, 2);
+$table->enum('method', ['creditCard', 'wishmoney', 'OMT', 'Cash']);
+$table->enum('status', ['success', 'failed', 'pending']);
+$table->timestamp('transaction_date');
+$table->foreignId('customer_id')->constrained()->onDelete('cascade');
+$table->foreignId('service_request_id')->constrained('service_requests')->onDelete('cascade');
+$table->timestamps(); */

@@ -121,12 +121,11 @@
                                                 class="btn btn-review">
                                                 <i class="fas fa-comment-dots icon"></i> Leave a review
                                             </a>
-                                            @if ($serviceRequest->status == 'completed')
-                                                <button class="btn btn-success BtnDeleteRegularRequest"
-                                                    data-id="{{ $serviceRequest->id }}">
-                                                    <i class="fas fa-check "></i>
+                                            @if ($serviceRequest->status == 'completed' && !$serviceRequest->payment)
+                                                <a href="{{ route('payment.checkout', $serviceRequest->id) }}"
+                                                    class="btn btn-success">
                                                     Pay for Service
-                                                </button>
+                                                </a>
                                             @endif
                                         @else
                                             <button class="btn btn-danger BtnDeleteRegularRequest"
