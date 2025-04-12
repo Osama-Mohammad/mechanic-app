@@ -20,4 +20,9 @@ class Payment extends Model
     {
         return $this->belongsTo(ServiceRequest::class);
     }
+
+    public function mechanic()
+    {
+        return $this->belongsTo(Mechanic::class);
+    }
 }
