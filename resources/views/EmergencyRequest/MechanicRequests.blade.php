@@ -77,41 +77,64 @@
                             </thead>
                             <tbody>
                                 @foreach ($requests as $request)
-                                    <tr id="row-{{ $request->id }}">
-                                        <td>{{ $request->description }}</td>
-                                        <td>{{ $request->location }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center gap-2">
-                                                <select name="status"
-                                                    class="form-select form-select-sm bg-dark text-white w-auto"
-                                                    id="status-{{ $request->id }}">
-                                                    <option value="pending"
-                                                        {{ $request->status === 'pending' ? 'selected' : '' }}><i
-                                                            class="fas fa-clock"></i> Pending</option>
-                                                    <option value="inprogress"
-                                                        {{ $request->status === 'inprogress' ? 'selected' : '' }}><i
-                                                            class="fas fa-tools"></i> In Progress</option>
-                                                    <option value="completed"
-                                                        {{ $request->status === 'completed' ? 'selected' : '' }}><i
-                                                            class="fas fa-check-circle"></i> Completed</option>
-                                                    <option value="canceled"
-                                                        {{ $request->status === 'canceled' ? 'selected' : '' }}><i
-                                                            class="fas fa-times-circle"></i> Canceled</option>
-                                                </select>
-                                                <button class="btn btn-warning btn-sm px-3 BtnSave"
+                                    @if ($request->status == 'pending')
+                                        <tr id="row-{{ $request->id }}">
+                                            <td>{{ $request->description }}</td>
+                                            <td>{{ $request->location }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <p>Pending : Waiting to press the button to Accept or Decline</p>
+                                                </div>
+                                            </td>
+                                            <td>{{ $request->created_at->format('Y-m-d H:i') }}</td>
+                                            <td>
+                                                <button type="submit"
+                                                    class="btn btn-success btn-sm BtnAcceptEmergencyRequest"
                                                     data-id="{{ $request->id }}">
-                                                    <i class="fas fa-save"></i> Save
+                                                    <i class="fas fa-check"></i> Accept
                                                 </button>
-                                            </div>
-                                        </td>
-                                        <td>{{ $request->created_at->format('Y-m-d H:i') }}</td>
-                                        <td>
-                                            <button type="submit" class="btn btn-danger btn-sm BtnDelete"
-                                                data-id="{{ $request->id }}">
-                                                <i class="fas fa-trash"></i> Delete
-                                            </button>
-                                        </td>
-                                    </tr>
+                                                <button type="submit"
+                                                    class="btn btn-danger btn-sm BtnRejectEmergencyRequest"
+                                                    data-id="{{ $request->id }}">
+                                                    <i class="fas fa-trash"></i> Reject
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @else
+                                        <tr id="row-{{ $request->id }}">
+                                            <td>{{ $request->description }}</td>
+                                            <td>{{ $request->location }}</td>
+                                            <td>
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <select name="status"
+                                                        class="form-select form-select-sm bg-dark text-white w-auto"
+                                                        id="status-{{ $request->id }}">
+                                                        <option value="inprogress"
+                                                            {{ $request->status === 'inprogress' ? 'selected' : '' }}>
+                                                            <i class="fas fa-tools"></i> In Progress
+                                                        </option>
+                                                        <option value="completed"
+                                                            {{ $request->status === 'completed' ? 'selected' : '' }}><i
+                                                                class="fas fa-check-circle"></i> Completed</option>
+                                                        <option value="canceled"
+                                                            {{ $request->status === 'canceled' ? 'selected' : '' }}><i
+                                                                class="fas fa-times-circle"></i> Canceled</option>
+                                                    </select>
+                                                    <button class="btn btn-warning btn-sm px-3 BtnSave"
+                                                        data-id="{{ $request->id }}">
+                                                        <i class="fas fa-save"></i> Save
+                                                    </button>
+                                                </div>
+                                            </td>
+                                            <td>{{ $request->created_at->format('Y-m-d H:i') }}</td>
+                                            <td>
+                                                <button type="submit" class="btn btn-danger btn-sm BtnDelete"
+                                                    data-id="{{ $request->id }}">
+                                                    <i class="fas fa-trash"></i> Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -389,6 +412,101 @@
                         alert('Failed to reject request');
                     }
                 });
+            });
+
+            $(document).on('click', '.BtnAcceptEmergencyRequest', function() {
+                let id = $(this).data('id');
+                let $row = $(this).closest('tr');
+                let description = $row.find('td:eq(0)').text();
+                let location = $row.find('td:eq(1)').text();
+                let date = $row.find('td:eq(3)').text();
+
+                if (!confirm("Are you sure you want to accept this request?")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('mechanic.emergency.accept') }}',
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        alert(data.msg);
+
+                        // Remove from pending section
+                        $row.remove();
+
+                        // Add to active section
+                        let newRow = `
+                <tr id="row-${id}">
+                    <td>${description}</td>
+                    <td>${location}</td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            <select name="status"
+                                class="form-select form-select-sm bg-dark text-white w-auto"
+                                id="status-${id}">
+                                <option value="inprogress" selected>
+                                    <i class="fas fa-tools"></i> In Progress
+                                </option>
+                                <option value="completed">
+                                    <i class="fas fa-check-circle"></i> Completed
+                                </option>
+                                <option value="canceled">
+                                    <i class="fas fa-times-circle"></i> Canceled
+                                </option>
+                            </select>
+                            <button class="btn btn-warning btn-sm px-3 BtnSave"
+                                data-id="${id}">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </td>
+                    <td>${date}</td>
+                    <td>
+                        <button type="submit" class="btn btn-danger btn-sm BtnDelete"
+                            data-id="${id}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </td>
+                </tr>
+            `;
+
+                        // Append to the emergency requests table (find the correct tbody)
+                        $('.card-body table tbody').append(newRow);
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Failed to accept request');
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '.BtnRejectEmergencyRequest', function() {
+            let id = $(this).data('id');
+
+            if (!confirm("Are you sure you want to reject this request?")) {
+                return;
+            }
+
+            $.ajax({
+                url: '{{ route('mechanic.emergency.reject') }}',
+                type: 'POST',
+                data: {
+                    'id': id,
+                    '_token': '{{ csrf_token() }}'
+                },
+                success: function(data) {
+                    alert(data.msg);
+                    $('#row-' + data.id).remove();
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                    alert('Failed to reject request');
+                }
             });
         });
     </script>

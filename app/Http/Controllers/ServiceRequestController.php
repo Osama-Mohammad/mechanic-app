@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\EmergencyRequest;
 use App\Models\Mechanic;
 use App\Models\ServiceType;
 use Illuminate\Http\Request;
@@ -20,7 +21,9 @@ class ServiceRequestController extends Controller
     {
         $serviceRequests = ServiceRequest::where('customer_id', Auth::guard('customer')->user()->id)
             ->with('serviceType')->get();
-        return view('ServiceRequest.index', compact('serviceRequests'));
+
+        $emergencyRequests = EmergencyRequest::where('customer_id', Auth::guard('customer')->user()->id)->get();
+        return view('ServiceRequest.index', compact('serviceRequests', 'emergencyRequests'));
     }
 
     /**
@@ -41,7 +44,7 @@ class ServiceRequestController extends Controller
         $customer = Auth::guard('customer')->user();
 
         // Get all service types
-       // $ServiceTypes = ServiceType::all();
+        // $ServiceTypes = ServiceType::all();
 
         // Get the nearest mechanics using the Haversine formula
         $mechanics = Mechanic::selectRaw(
@@ -61,7 +64,7 @@ class ServiceRequestController extends Controller
             ->limit(10)  // Get only the top 10 nearest mechanics
             ->get();
 
-            // , 'ServiceTypes'
+        // , 'ServiceTypes'
         return view('ServiceRequest.create', compact('mechanics'));
     }
 

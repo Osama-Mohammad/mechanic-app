@@ -145,6 +145,7 @@
                             @endforelse
                         </tbody>
                     </table>
+
                     @if (session('success'))
                         <div class="alert alert-success text-center">
                             {{ session('success') }}
@@ -154,6 +155,71 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="container mt-5">
+        <div class="card bg-dark text-light">
+            <div class="card-header bg-dark">
+                <h3 class="card-title text-center">
+                    <i class="fas fa-tools icon"></i> Emergency Requests for Customer:
+                    {{ Auth::guard('customer')->user()->name }}
+                </h3>
+            </div>
+            <div class="card-body">
+                <div class="table-container">
+
+                    <table class="table mt-4">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-wrench icon"></i>Description</th>
+                                <th><i class="fas fa-info-circle icon"></i>Location</th>
+                                <th><i class="fas fa-calendar-alt icon"></i>Status</th>
+                                <th><i class="fas fa-user-cog icon"></i>Response TIme</th>
+                                <th><i class="fas fa-comments icon"></i>Mechanic</th>
+                                <th><i class="fas fa-comments icon"></i>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($emergencyRequests as $emergencyRequest)
+                                <tr id="emergency-row-{{ $emergencyRequest->id }}">
+                                    <td>{{ $emergencyRequest->description }}</td>
+                                    <td>{{ $emergencyRequest->location }}</td>
+                                    <td>{{ $emergencyRequest->status }}</td>
+                                    <td>{{ $emergencyRequest->response_time }}</td>
+                                    <td>{{ $emergencyRequest->mechanic->name }}</td>
+                                    <td>
+                                        @if ($emergencyRequest->status == 'canceled' || $emergencyRequest->status == 'inprogress')
+                                            <button class="btn btn-danger BtnDeleteEmergencyRequest"
+                                                data-id="{{ $emergencyRequest->id }}">
+                                                <i class="fas fa-trash "></i>
+                                                Delete Service Request
+                                            </button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <i class="fas fa-exclamation-circle icon"></i> No canceled service requests
+                                        found.
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+
+
+                        @if (session('success'))
+                            <div class="alert alert-success text-center">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         $(document).ready(function() {
@@ -175,6 +241,33 @@
                     success: function(data) {
                         alert(data.msg);
                         $('#regular-row-' + data.id).remove();
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        alert('Failed to update request');
+                    }
+                });
+            });
+
+
+            $(document).on('click', '.BtnDeleteEmergencyRequest', function() {
+                let id = $(this).data('id');
+
+                if (!confirm(
+                        "Are you sure you want to delete this request? This action cannot be undone.")) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('emergency.request.delete') }}',
+                    type: 'POST',
+                    data: {
+                        'id': id,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function(data) {
+                        alert(data.msg);
+                        $('#emergency-row-' + data.id).remove();
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);

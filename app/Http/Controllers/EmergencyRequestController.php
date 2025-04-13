@@ -113,4 +113,31 @@ class EmergencyRequestController extends Controller
 
         return response()->json(['msg' => 'Deleted Request Successfully', 'id' => $request->id]);
     }
+
+
+    public function MechanicAcceptRequestEmergency(Request $request)
+    {
+        $report = EmergencyRequest::find($request->id);
+
+        if (!$report) {
+            return response()->json(['msg' => 'Request not found'], 404);
+        }
+
+        $report->update(['status' => 'inprogress']);
+
+        return response()->json(['msg' => 'Accepted Request Successfully', 'id' => $request->id]);
+    }
+
+    public function MechanicRejectRequestEmergency(Request $request)
+    {
+        $report = EmergencyRequest::find($request->id);
+
+        if (!$report) {
+            return response()->json(['msg' => 'Request not found'], 404);
+        }
+
+        $report->update(['status' => 'canceled']);
+
+        return response()->json(['msg' => 'Rejected Request Successfully', 'id' => $request->id]);
+    }
 }

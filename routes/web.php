@@ -64,6 +64,8 @@ Route::prefix('customer')->group(function () {
         Route::get('/EmergencyRequest/create', [EmergencyRequestController::class, 'index'])->name('emergency.request.create');
         Route::post('/EmergencyRequest/{customer}/store', [EmergencyRequestController::class, 'store'])->name('emergency.request.store');
 
+        Route::post('/EmergencyRequest/delete', [EmergencyRequestController::class, 'MechanicDeleteRequestEmergency'])->name('emergency.request.delete');
+
         // Use Resource Route for Service Requests
         Route::resource('service-requests', ServiceRequestController::class)->only(['index', 'create', 'store']);
 
@@ -115,6 +117,10 @@ Route::prefix('mechanic')->group(function () {
             Route::get('/{mechanic}/show', [EmergencyRequestController::class, 'MechanicRequest'])->name('mechanic.emergency.show');
             Route::post('/update', [EmergencyRequestController::class, 'MechanicUpdateRequestEmergency'])->name('mechanic.emergency.update');
             Route::post('/delete', [EmergencyRequestController::class, 'MechanicDeleteRequestEmergency'])->name('mechanic.emergency.delete');
+
+
+            Route::post('/accept', [EmergencyRequestController::class, 'MechanicAcceptRequestEmergency'])->name('mechanic.emergency.accept');
+            Route::post('/reject', [EmergencyRequestController::class, 'MechanicRejectRequestEmergency'])->name('mechanic.emergency.reject');
         });
 
         // Regular Service Requests
