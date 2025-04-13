@@ -75,7 +75,7 @@
                                     <th><i class="fas fa-cogs"></i> Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="emergency-requests-table">
                                 @foreach ($requests as $request)
                                     @if ($request->status == 'pending')
                                         <tr id="row-{{ $request->id }}">
@@ -109,6 +109,9 @@
                                                     <select name="status"
                                                         class="form-select form-select-sm bg-dark text-white w-auto"
                                                         id="status-{{ $request->id }}">
+                                                        {{-- <option value="pending"
+                                                            {{ $request->status === 'pending' ? 'selected' : '' }}><i
+                                                                class="fas fa-clock"></i> Pending</option> --}}
                                                         <option value="inprogress"
                                                             {{ $request->status === 'inprogress' ? 'selected' : '' }}>
                                                             <i class="fas fa-tools"></i> In Progress
@@ -475,7 +478,7 @@
             `;
 
                         // Append to the emergency requests table (find the correct tbody)
-                        $('.card-body table tbody').append(newRow);
+                        $('#emergency-requests-table').append(newRow);
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);

@@ -138,7 +138,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">
+                                    <td colspan="6" class="text-center">
                                         <i class="fas fa-exclamation-circle icon"></i> No service requests found.
                                     </td>
                                 </tr>
@@ -189,7 +189,7 @@
                                     <td>{{ $emergencyRequest->response_time }}</td>
                                     <td>{{ $emergencyRequest->mechanic->name }}</td>
                                     <td>
-                                        @if ($emergencyRequest->status == 'canceled' || $emergencyRequest->status == 'inprogress')
+                                        @if ($emergencyRequest->status == 'canceled')
                                             <button class="btn btn-danger BtnDeleteEmergencyRequest"
                                                 data-id="{{ $emergencyRequest->id }}">
                                                 <i class="fas fa-trash "></i>
@@ -198,9 +198,11 @@
                                         @endif
                                     </td>
                                 </tr>
+
+
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center">
+                                    <td colspan="6" class="text-center">
                                         <i class="fas fa-exclamation-circle icon"></i> No canceled service requests
                                         found.
                                     </td>
