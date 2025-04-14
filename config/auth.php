@@ -52,6 +52,22 @@ return [
             'driver' => 'session',
             'provider' => 'mechanics',
         ],
+        'api' => [
+            'driver' => 'passport',  // Use passport for API authentication
+            'provider' => 'users',
+        ],
+        'customer-api' => [
+            'driver' => 'passport',  // Use passport for the customer API guard
+            'provider' => 'customers',  // Ensure you have the correct provider for customers
+        ],
+        'mechanic-api' => [
+            'driver' => 'passport',
+            'provider' => 'mechanics',
+        ],
+        'admin-api' => [
+            'driver' => 'passport',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -88,7 +104,7 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\Mechanic::class),
         ],
-        
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
