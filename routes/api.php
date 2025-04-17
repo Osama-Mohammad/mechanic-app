@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerApiController;
+use App\Http\Controllers\MechanicApiController;
 use App\Http\Controllers\ServiceRequestApiController;
 
 Route::get('/user', function (Request $request) {
@@ -28,5 +29,17 @@ Route::prefix('customer')->group(function () {
         Route::put('/profile/edit/{customer}', [CustomerApiController::class, 'update'])->name('customer.profile.update');
 
         Route::post('/service-request/store', [ServiceRequestApiController::class, 'store'])->name('customer.service-request.store');
+    });
+});
+
+Route::prefix('mechanic')->group(function () {
+    Route::get('/index', [MechanicApiController::class, 'index'])->name('mechanic.index');
+
+    Route::middleware('guest:mechanic')->group(function () {
+        Route::post('/register/store', [MechanicApiController::class, 'store'])->name('mechanic.register.store');
+    });
+
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::put('/profile/edit/{mechanic}', [MechanicApiController::class, 'update'])->name('mechanic.profile.update');
     });
 });
