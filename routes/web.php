@@ -37,11 +37,60 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::middleware('auth:admin')->group(function () {
+        // Admin profile routes
         Route::get('/profile/{admin}', [AdminController::class, 'ProfilePage'])->name('admin.profile');
         Route::get('/profile/edit/{admin}', [AdminController::class, 'EditProfilePage'])->name('admin.profile.edit');
         Route::patch('/profile/edit/{admin}', [AdminController::class, 'EditProfile'])->name('admin.profile.update');
+        Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+        // Admin Service Request Routes
+        Route::get('/service-requests', [App\Http\Controllers\Admin\ServiceRequestController::class, 'index'])->name('admin.service-requests.index');
+        Route::get('/service-requests/{serviceRequest}', [App\Http\Controllers\Admin\ServiceRequestController::class, 'show'])->name('admin.service-requests.show');
+        Route::put('/service-requests/{serviceRequest}', [App\Http\Controllers\Admin\ServiceRequestController::class, 'update'])->name('admin.service-requests.update');
+
+        // Admin Customer Routes
+        Route::get('/customers', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('admin.customers.index');
+        Route::get('/customers/{customer}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('admin.customers.show');
+
+        // Admin Mechanic Routes
+        Route::get('/mechanics', [App\Http\Controllers\Admin\MechanicController::class, 'index'])->name('admin.mechanics.index');
+        Route::get('/mechanics/{mechanic}', [App\Http\Controllers\Admin\MechanicController::class, 'show'])->name('admin.mechanics.show');
+
+        // Admin Emergency Request Routes
+        Route::get('/emergency-requests', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'index'])->name('admin.emergency-requests.index');
+        Route::get('/emergency-requests/{emergencyRequest}', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'show'])->name('admin.emergency-requests.show');
+        Route::put('/emergency-requests/{emergencyRequest}', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'update'])->name('admin.emergency-requests.update');
+
+        // Admin Review Routes
+        Route::get('/reviews', [App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews.index');
+        Route::get('/reviews/{review}', [App\Http\Controllers\Admin\ReviewController::class, 'show'])->name('admin.reviews.show');
+
+        // Admin Payment Routes
+        Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('admin.payments.index');
+        Route::get('/payments/{payment}', [App\Http\Controllers\Admin\PaymentController::class, 'show'])->name('admin.payments.show');
+
+        // Admin Service Type Routes
+        Route::get('/service-types', [App\Http\Controllers\Admin\ServiceTypeController::class, 'index'])->name('admin.service-types.index');
+        Route::get('/service-types/create', [App\Http\Controllers\Admin\ServiceTypeController::class, 'create'])->name('admin.service-types.create');
+        Route::post('/service-types', [App\Http\Controllers\Admin\ServiceTypeController::class, 'store'])->name('admin.service-types.store');
+        Route::get('/service-types/{serviceType}/edit', [App\Http\Controllers\Admin\ServiceTypeController::class, 'edit'])->name('admin.service-types.edit');
+        Route::put('/service-types/{serviceType}', [App\Http\Controllers\Admin\ServiceTypeController::class, 'update'])->name('admin.service-types.update');
+        Route::delete('/service-types/{serviceType}', [App\Http\Controllers\Admin\ServiceTypeController::class, 'destroy'])->name('admin.service-types.destroy');
+
+        // Admin management Routes
+        Route::get('/admins', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.admins.index');
+        Route::get('/admins/create', [App\Http\Controllers\Admin\AdminController::class, 'create'])->name('admin.admins.create');
+        Route::post('/admins', [App\Http\Controllers\Admin\AdminController::class, 'store'])->name('admin.admins.store');
+        Route::get('/admins/{admin}/edit', [App\Http\Controllers\Admin\AdminController::class, 'edit'])->name('admin.admins.edit');
+        Route::put('/admins/{admin}', [App\Http\Controllers\Admin\AdminController::class, 'update'])->name('admin.admins.update');
+        Route::delete('/admins/{admin}', [App\Http\Controllers\Admin\AdminController::class, 'destroy'])->name('admin.admins.destroy');
     });
 });
+
+// Dashboard Route
+Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index'])
+    ->middleware(['auth:admin'])
+    ->name('admin.dashboard');
 
 /* ------------------------------------------------------------Admin End------------------------------------------------------------ */
 

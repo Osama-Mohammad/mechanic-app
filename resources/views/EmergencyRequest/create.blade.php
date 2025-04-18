@@ -10,7 +10,8 @@
 
         /* Custom CSS for rating */
         .rating {
-            color: #FFD700; /* Gold color for stars */
+            color: #FFD700;
+            /* Gold color for stars */
             font-weight: bold;
         }
     </style>
@@ -25,7 +26,8 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('emergency.request.store', Auth::guard('customer')->user()) }}">
+                        <form method="POST"
+                            action="{{ route('emergency.request.store', Auth::guard('customer')->user()) }}">
                             @csrf
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description:</label>
@@ -42,7 +44,9 @@
                                     <select name="mechanics" class="form-control bg-dark text-light">
                                         @foreach ($mechanics as $mechanic)
                                             <option value="{{ $mechanic->id }}">
-                                                {{ $mechanic->name }} - <span class="rating">{{ number_format($mechanic->average_rating, 1) }} ⭐</span>
+                                                {{ $mechanic->name }} - <span
+                                                    class="rating">{{ number_format($mechanic->average_rating, 1) }}
+                                                    ⭐</span>
                                             </option>
                                         @endforeach
                                     </select>
@@ -70,9 +74,16 @@
                                 </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
+            @if (session('success'))
+                <div class="alert alert-success text-center">
+                    {{ session('success') }}
+                </div>
+            @endif
         </div>
     </div>
+
 </x-layout>

@@ -23,7 +23,7 @@
                 <!-- Show specific menu items based on the authenticated guard -->
                 @if (Auth::guard('admin')->check())
                     <a class="nav-link" href="/dashboard"><i class="fas fa-user-shield me-1"></i> Admin Dashboard</a>
-                    <a class="nav-link" href="{{ route('admin_EditProfile', Auth::guard('admin')->user()) }}"><i
+                    <a class="nav-link" href="{{ route('admin.profile.edit', Auth::guard('admin')->user()) }}"><i
                             class="fas fa-user me-1"></i> Admin Profile</a>
                 @endif
 

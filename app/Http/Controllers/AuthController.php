@@ -28,7 +28,7 @@ class AuthController extends Controller
         } elseif (Auth::guard('admin')->attempt($request->only('email', 'password'))) {
             Auth::guard('admin')->user();
             // return redirect('/');
-            return redirect()->route('login.page');
+            return redirect()->route('admin.dashboard');
         } elseif (Auth::guard('mechanic')->attempt($request->only('email', 'password'))) {
             Auth::guard('mechanic')->user();
             // return redirect('/');

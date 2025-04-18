@@ -78,7 +78,7 @@ class EmergencyRequestController extends Controller
 
         $request->save();
 
-        return redirect('/');
+        return redirect()->route('emergency.request.create')->with('success', 'created successfully');
     }
 
     public function MechanicRequest(Mechanic $mechanic)

@@ -211,11 +211,11 @@
                         </tbody>
 
 
-                        @if (session('success'))
+                        {{-- @if (session('success'))
                             <div class="alert alert-success text-center">
                                 {{ session('success') }}
                             </div>
-                        @endif
+                        @endif --}}
                 </div>
             </div>
         </div>

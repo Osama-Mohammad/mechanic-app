@@ -46,6 +46,6 @@ class AdminController extends Controller
             'email' => 'required|email|unique:customers,email|unique:mechanics,email|unique:admins,email,' . $admin->id,
         ]);
         $admin->update($validated);
-        return redirect()->route('admin_profilePage', $admin);
+        return redirect()->route('admin.profile', $admin);
     }
 }

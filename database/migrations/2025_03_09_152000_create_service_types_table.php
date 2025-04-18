@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('service_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
             $table->decimal('price', 8, 2);
             $table->foreignId('mechanic_id')->constrained('mechanics')->onDelete('cascade');
-
-
             $table->timestamps();
         });
     }

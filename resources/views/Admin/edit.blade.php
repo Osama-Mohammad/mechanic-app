@@ -11,7 +11,7 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('admin_EditProfile', $admin) }}" method="POST">
+                            <form action="{{ route('admin.profile.update', $admin) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
                                 <div class="mb-3">

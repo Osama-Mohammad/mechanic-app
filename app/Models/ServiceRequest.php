@@ -21,7 +21,7 @@ class ServiceRequest extends Model
         return $this->belongsTo(Mechanic::class);
     }
 
-    public function payments()
+    public function payment()
     {
         return $this->hasOne(Payment::class);
     }
