@@ -110,14 +110,123 @@ class ServiceRequestApiController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        if (!$request->user()) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+        $serviceRequest = ServiceRequest::findOrFail($id);
+        if (!$serviceRequest) {
+            return response()->json([
+                'error' => 'Service request not found',
+            ], 404);
+        }
+        if ($request->user()->id != $serviceRequest->mechanic_id) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+        $validated = $request->validate([
+            'status' => 'required|in:pending,inprogress,completed,canceled,paid',
+        ]);
+        $serviceRequest->status = $validated['status'];
+        $serviceRequest->save();
+        return response()->json([
+            'message' => 'Service request updated successfully',
+            'service_request' => $serviceRequest,
+            'user' => $request->user(),
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        if (!$request->user()) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+
+        $serviceRequest = ServiceRequest::findOrFail($id);
+
+        if (!$serviceRequest) {
+            return response()->json([
+                'error' => 'Service request not found',
+            ], 404);
+        }
+
+        if ($serviceRequest->customer_id != $request->user()->id || $serviceRequest->mechanic_id != $request->user()->id) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+
+        $serviceRequest->delete();
+
+        return response()->json([
+            'message' => 'Service request deleted successfully',
+            'service_request' => $serviceRequest,
+        ], 200);
+    }
+
+    public function accept(string $id, Request $request)
+    {
+        if (!$request->user()) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+        $serviceRequest = ServiceRequest::findOrFail($id);
+
+        if (!$serviceRequest) {
+            return response()->json([
+                'error' => 'Service request not found',
+            ], 404);
+        }
+
+        if ($serviceRequest->mechanic_id != $request->user()->id) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+        $serviceRequest->status = 'inprogress';
+        $serviceRequest->save();
+        return response()->json([
+            'message' => 'Service request accepted successfully',
+            'service_request' => $serviceRequest,
+        ], 200);
+    }
+
+    public function decline(string $id, Request $request)
+    {
+        if (!$request->user()) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+        $serviceRequest = ServiceRequest::findOrFail($id);
+
+        if (!$serviceRequest) {
+            return response()->json([
+                'error' => 'Service request not found',
+            ], 404);
+        }
+
+        if ($serviceRequest->mechanic_id != $request->user()->id) {
+            return response()->json([
+                'error' => 'Unauthorized',
+            ], 401);
+        }
+
+        $serviceRequest->status = 'canceled';
+
+        $serviceRequest->save();
+
+        return response()->json([
+            'message' => 'Service request declined successfully',
+            'service_request' => $serviceRequest,
+        ], 200);
     }
 }
