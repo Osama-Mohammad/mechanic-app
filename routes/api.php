@@ -69,3 +69,4 @@ Route::prefix('mechanic')->group(function () {
         Route::delete('/emergency-request/delete/{emergencyRequest}', [EmergencyRequestApiController::class, 'destroy']);
     });
 });
+    

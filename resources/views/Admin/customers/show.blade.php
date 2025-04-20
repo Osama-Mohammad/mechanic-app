@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="card-body">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
@@ -52,6 +52,15 @@
                                         <td>{{ $customer->created_at->format('M d, Y H:i') }}</td>
                                     </tr>
                                 </table>
+                                <a href="{{ route('admin.customers.edit', $customer) }}">Edit</a>
+
+                                <form action="{{ route('admin.customers.destroy', $customer) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button>Delete</button>
+                                </form>
+
+
                             </div>
                         </div>
                     </div>
@@ -93,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Service Requests Tab -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -117,18 +126,26 @@
                                         <tr>
                                             <td>{{ $request->id }}</td>
                                             <td>{{ $request->serviceType->name }}</td>
-                                            <td>{{ $request->mechanic ? $request->mechanic->name : 'Not Assigned' }}</td>
+                                            <td>{{ $request->mechanic ? $request->mechanic->name : 'Not Assigned' }}
+                                            </td>
                                             <td>
-                                                <span class="badge bg-{{ $request->status == 'completed' ? 'success' : 
-                                                    ($request->status == 'canceled' ? 'danger' : 
-                                                    ($request->status == 'inprogress' ? 'primary' : 
-                                                    ($request->status == 'accepted' ? 'info' : 'warning'))) }}">
+                                                <span
+                                                    class="badge bg-{{ $request->status == 'completed'
+                                                        ? 'success'
+                                                        : ($request->status == 'canceled'
+                                                            ? 'danger'
+                                                            : ($request->status == 'inprogress'
+                                                                ? 'primary'
+                                                                : ($request->status == 'accepted'
+                                                                    ? 'info'
+                                                                    : 'warning'))) }}">
                                                     {{ ucfirst($request->status) }}
                                                 </span>
                                             </td>
                                             <td>{{ $request->created_at->format('M d, Y') }}</td>
                                             <td>
-                                                <a href="{{ route('admin.service-requests.show', $request) }}" class="btn btn-sm btn-primary">
+                                                <a href="{{ route('admin.service-requests.show', $request) }}"
+                                                    class="btn btn-sm btn-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
@@ -143,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Emergency Requests Tab -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -167,18 +184,26 @@
                                         <tr>
                                             <td>{{ $request->id }}</td>
                                             <td>{{ Str::limit($request->location, 30) }}</td>
-                                            <td>{{ $request->mechanic ? $request->mechanic->name : 'Not Assigned' }}</td>
+                                            <td>{{ $request->mechanic ? $request->mechanic->name : 'Not Assigned' }}
+                                            </td>
                                             <td>
-                                                <span class="badge bg-{{ $request->status == 'completed' ? 'success' : 
-                                                    ($request->status == 'canceled' ? 'danger' : 
-                                                    ($request->status == 'inprogress' ? 'primary' : 
-                                                    ($request->status == 'accepted' ? 'info' : 'warning'))) }}">
+                                                <span
+                                                    class="badge bg-{{ $request->status == 'completed'
+                                                        ? 'success'
+                                                        : ($request->status == 'canceled'
+                                                            ? 'danger'
+                                                            : ($request->status == 'inprogress'
+                                                                ? 'primary'
+                                                                : ($request->status == 'accepted'
+                                                                    ? 'info'
+                                                                    : 'warning'))) }}">
                                                     {{ ucfirst($request->status) }}
                                                 </span>
                                             </td>
                                             <td>{{ $request->created_at->format('M d, Y') }}</td>
                                             <td>
-                                                <a href="{{ route('admin.emergency-requests.show', $request) }}" class="btn btn-sm btn-primary">
+                                                <a href="{{ route('admin.emergency-requests.show', $request) }}"
+                                                    class="btn btn-sm btn-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
@@ -196,4 +221,4 @@
             </div>
         </div>
     </div>
-</x-layout> 
+</x-layout>

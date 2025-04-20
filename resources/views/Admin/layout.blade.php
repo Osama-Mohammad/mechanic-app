@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -117,6 +118,7 @@
     </style>
     @yield('styles')
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -124,47 +126,56 @@
             <h5 class="text-white mb-3">Admin Panel</h5>
             <ul class="nav flex-column">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                        href="{{ route('admin.dashboard') }}">
                         <i class="fas fa-tachometer-alt"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}" href="{{ route('admin.customers.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.customers.*') ? 'active' : '' }}"
+                        href="{{ route('admin.customers.index') }}">
                         <i class="fas fa-users"></i> Customers
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.mechanics.*') ? 'active' : '' }}" href="{{ route('admin.mechanics.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.mechanics.*') ? 'active' : '' }}"
+                        href="{{ route('admin.mechanics.index') }}">
                         <i class="fas fa-wrench"></i> Mechanics
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.service-requests.*') ? 'active' : '' }}" href="{{ route('admin.service-requests.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.service-requests.*') ? 'active' : '' }}"
+                        href="{{ route('admin.service-requests.index') }}">
                         <i class="fas fa-tools"></i> Service Requests
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.emergency-requests.*') ? 'active' : '' }}" href="{{ route('admin.emergency-requests.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.emergency-requests.*') ? 'active' : '' }}"
+                        href="{{ route('admin.emergency-requests.index') }}">
                         <i class="fas fa-exclamation-triangle"></i> Emergency Requests
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}" href="{{ route('admin.reviews.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.reviews.*') ? 'active' : '' }}"
+                        href="{{ route('admin.reviews.index') }}">
                         <i class="fas fa-star"></i> Reviews
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}" href="{{ route('admin.payments.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.payments.*') ? 'active' : '' }}"
+                        href="{{ route('admin.payments.index') }}">
                         <i class="fas fa-credit-card"></i> Payments
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.service-types.*') ? 'active' : '' }}" href="{{ route('admin.service-types.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.service-types.*') ? 'active' : '' }}"
+                        href="{{ route('admin.service-types.index') }}">
                         <i class="fas fa-list"></i> Service Types
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}" href="{{ route('admin.admins.index') }}">
+                    <a class="nav-link {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}"
+                        href="{{ route('admin.admins.index') }}">
                         <i class="fas fa-user-shield"></i> Admins
                     </a>
                 </li>
@@ -181,13 +192,17 @@
         </div>
         <div class="d-flex align-items-center">
             <div class="dropdown">
-                <button class="btn btn-link text-dark dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                <button class="btn btn-link text-dark dropdown-toggle" type="button" id="userDropdown"
+                    data-bs-toggle="dropdown">
                     <i class="fas fa-user-circle me-2"></i>
                     {{ Auth::guard('admin')->user()->name }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i> Profile</a></li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.profile', Auth::guard('admin')->user()) }}"><i
+                                class="fas fa-user me-2"></i> Profile</a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li>
                         <form action="{{ route('admin.logout') }}" method="POST">
                             @csrf
@@ -230,4 +245,5 @@
     </script>
     @yield('scripts')
 </body>
-</html> 
+
+</html>

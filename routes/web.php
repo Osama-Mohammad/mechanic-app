@@ -51,6 +51,9 @@ Route::prefix('admin')->group(function () {
         // Admin Customer Routes
         Route::get('/customers', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('admin.customers.index');
         Route::get('/customers/{customer}', [App\Http\Controllers\Admin\CustomerController::class, 'show'])->name('admin.customers.show');
+        Route::get('/customers/{customer}/edit', [App\Http\Controllers\Admin\CustomerController::class, 'edit'])->name('admin.customers.edit');
+        Route::put('/customers/{customer}/update', [App\Http\Controllers\Admin\CustomerController::class, 'update'])->name('admin.customers.update');
+        Route::delete('/customers/{customer}/delete', [App\Http\Controllers\Admin\CustomerController::class, 'destroy'])->name('admin.customers.destroy');
 
         // Admin Mechanic Routes
         Route::get('/mechanics', [App\Http\Controllers\Admin\MechanicController::class, 'index'])->name('admin.mechanics.index');

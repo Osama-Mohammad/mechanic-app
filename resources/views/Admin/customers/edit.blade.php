@@ -20,7 +20,7 @@
 
                         <form action="{{ route('admin.customers.update', $customer->id) }}" method="POST">
                             @csrf
-                            @method('PUT')
+                            @method('PATCH')
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name:</label>
                                 <input type="text" class="form-control bg-dark text-light"
