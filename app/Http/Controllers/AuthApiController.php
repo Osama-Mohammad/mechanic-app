@@ -24,6 +24,7 @@ class AuthApiController extends Controller
                     'message' => 'Customer logged in successfully',
                     'customer' => Auth::guard('customer')->user(),
                     'token' => $token,
+                    'role' => 'customer',
                     'status' => 200
                 ]);
             } elseif (Auth::guard('admin')->attempt($validated)) {
@@ -33,6 +34,7 @@ class AuthApiController extends Controller
                     'message' => 'Admin logged in successfully',
                     'admin' => Auth::guard('admin')->user(),
                     'token' => $token,
+                    'role' => 'admin',
                     'status' => 200
                 ]);
             } elseif (Auth::guard('mechanic')->attempt($validated)) {
@@ -42,6 +44,7 @@ class AuthApiController extends Controller
                     'message' => 'Mechanic logged in successfully',
                     'mechanic' => Auth::guard('mechanic')->user(),
                     'token' => $token,
+                    'role' => 'mechanic',
                     'status' => 200
                 ]);
             } else {
