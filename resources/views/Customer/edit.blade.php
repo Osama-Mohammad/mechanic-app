@@ -46,18 +46,14 @@
                                 @enderror
                             </div>
 
-
-
-
-
                             <div class="mb-3">
                                 <label for="latitude" class="form-label">
                                     <i class="fas fa-map-marked-alt"></i> Latitude:
                                 </label>
                                 <input type="text" id="latitude" name="latitude"
                                     class="form-control bg-dark text-light placeholder-light"
-                                    placeholder="Click 'Get My Location' to auto-fill"
-                                    value="{{ $customer->latitude }}"  readonly>
+                                    placeholder="Click 'Get My Location' to auto-fill" value="{{ $customer->latitude }}"
+                                    readonly>
                                 @error('latitude')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
@@ -70,7 +66,7 @@
                                 <input type="text" id="longitude" name="longitude"
                                     class="form-control bg-dark text-light placeholder-light"
                                     placeholder="Click 'Get My Location' to auto-fill"
-                                    value="{{ $customer->longitude }}"  readonly>
+                                    value="{{ $customer->longitude }}" readonly>
                                 @error('longitude')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
@@ -83,8 +79,6 @@
                                 </button>
                             </div>
 
-
-
                             <div class="mb-3">
                                 <label for="location" class="form-label">
                                     <i class="fas fa-city"></i> City:
@@ -92,29 +86,34 @@
                                 <input type="text" id="location" name="location"
                                     class="form-control bg-dark text-light placeholder-light"
                                     placeholder="Click 'Get My Location' to auto-fill"
-                                    value="{{ $customer->location }}"  readonly>
+                                    value="{{ $customer->location }}" readonly>
                                 @error('location')
                                     <div class="text-danger small">{{ $message }}</div>
                                 @enderror
                             </div>
 
 
-
-
-
-
-
-
-                            {{--
-
                             <div class="mb-3">
-                                <label for="location" class="form-label">Location:</label>
-                                <input type="text" class="form-control bg-dark text-light"
-                                    value="{{ $customer->location }}" name="location">
-                                @error('location')
+                                <label for="password" class="form-label">Password:</label>
+                                <input type="text" class="form-control bg-dark text-light" name="password"
+                                    placeholder="Leave This Field Empty If You Don't Want To Change It"
+                                    placeholder="Leave This Field Empty If You Don't Want To Change It">
+                                @error('password')
                                     {{ $message }}
                                 @enderror
-                            </div> --}}
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="password_confirmation" class="form-label">Confirm Password:</label>
+                                <input type="text" class="form-control bg-dark text-light"
+                                    name="password_confirmation"
+                                    placeholder="Leave This Field Empty If You Don't Want To Change It">
+                                @error('password_confirmation')
+                                    {{ $message }}
+                                @enderror
+                            </div>
+
+
 
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-warning">Update</button>

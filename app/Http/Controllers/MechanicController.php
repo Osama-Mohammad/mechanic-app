@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Mechanic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class MechanicController extends Controller
 {
@@ -119,6 +120,7 @@ class MechanicController extends Controller
 
     public function EditProfile(Mechanic $mechanic, Request $request)
     {
+
         $validated = $request->validate([
             'name' => 'required|min:3',
             'phone' => 'required|string|max:15|unique:customers,phone,' . $mechanic->id,
@@ -129,9 +131,22 @@ class MechanicController extends Controller
             'end_time' => 'required',
             'longitude' => 'required|numeric',
             'latitude' => 'required|numeric',
-            'workdays' => 'required|array'
-
+            'workdays' => 'required|array',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ]
         ]);
+
+        if (isset($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
         $mechanic->update($validated);
         return redirect()->route('mechanic.profile', compact('mechanic'));
     }

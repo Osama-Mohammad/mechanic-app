@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -44,7 +45,21 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|min:3',
             'email' => 'required|email|unique:customers,email|unique:mechanics,email|unique:admins,email,' . $admin->id,
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ]
         ]);
+
+        if (isset($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
         $admin->update($validated);
         return redirect()->route('admin.profile', $admin);
     }

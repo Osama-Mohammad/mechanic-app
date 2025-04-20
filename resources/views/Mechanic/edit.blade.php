@@ -1,5 +1,36 @@
 <body class="bg-dark text-light">
     <x-layout>
+        <style>
+            /* Make placeholder text white */
+            ::placeholder {
+                color: grey !important;
+                opacity: 1;
+                /* fully visible */
+            }
+
+            /* For compatibility across browsers */
+            :-ms-input-placeholder {
+                color: grey !important;
+            }
+
+            ::-ms-input-placeholder {
+                color: grey !important;
+            }
+
+            ::-webkit-input-placeholder {
+                color: grey !important;
+            }
+
+            :-moz-placeholder {
+                color: grey !important;
+                opacity: 1;
+            }
+
+            ::-moz-placeholder {
+                color: grey !important;
+                opacity: 1;
+            }
+        </style>
         <x-nav />
         <div class="container mt-5">
             <div class="row justify-content-center">
@@ -22,6 +53,7 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="phone" class="form-label">Phone:</label>
                                     <input type="text" class="form-control bg-dark text-light"
@@ -30,6 +62,7 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email:</label>
                                     <input type="text" class="form-control bg-dark text-light"
@@ -38,9 +71,6 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
-
-
-
 
                                 <div class="mb-3">
                                     <label for="start_time" class="form-label">
@@ -88,11 +118,6 @@
                                 </div>
 
 
-
-
-
-
-
                                 <div class="mb-3">
                                     <label for="experience" class="form-label">Experience:</label>
                                     <input type="text" class="form-control bg-dark text-light"
@@ -120,10 +145,6 @@
                                         {{ $message }}
                                     @enderror
                                 </div>
-
-
-
-
 
                                 <div class="mb-3">
                                     <label for="latitude" class="form-label">
@@ -170,6 +191,26 @@
                                         value="{{ $mechanic->location }}" readonly>
                                     @error('location')
                                         <div class="text-danger small">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password:</label>
+                                    <input type="text" class="form-control bg-dark text-light" name="password"
+                                        placeholder="Leave This Field Empty If You Don't Want To Change It"
+                                        placeholder="Leave This Field Empty If You Don't Want To Change It">
+                                    @error('password')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm Password:</label>
+                                    <input type="text" class="form-control bg-dark text-light"
+                                        name="password_confirmation"
+                                        placeholder="Leave This Field Empty If You Don't Want To Change It">
+                                    @error('password_confirmation')
+                                        {{ $message }}
                                     @enderror
                                 </div>
 

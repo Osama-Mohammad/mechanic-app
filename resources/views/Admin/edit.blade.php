@@ -32,6 +32,24 @@
                                     @enderror
                                 </div>
 
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password:</label>
+                                    <input type="text" class="form-control bg-dark text-light" value=""
+                                        name="password">
+                                    @error('password')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Confirm Password:</label>
+                                    <input type="text" class="form-control bg-dark text-light"
+                                        name="password_confirmation">
+                                    @error('password_confirmation')
+                                        {{ $message }}
+                                    @enderror
+                                </div>
+
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-warning">Update</button>
                                 </div>

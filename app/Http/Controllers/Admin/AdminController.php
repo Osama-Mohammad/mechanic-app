@@ -40,14 +40,20 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|email|unique:customers,email|unique:mechanics,email|unique:admins,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ]
         ]);
-        
+
         $validated['password'] = Hash::make($validated['password']);
-        
+
         Admin::create($validated);
-        
+
         return redirect()->route('admin.admins.index')
             ->with('success', 'Admin created successfully');
     }
@@ -74,18 +80,27 @@ class AdminController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins,email,' . $admin->id,
-            'password' => 'nullable|string|min:8|confirmed',
+
+            // 'email' => 'required|string|email|max:255|unique:admins,email,' . $admin->id,
+            // 'password' => 'nullable|string|min:8|confirmed',
+            'email' => 'required|email|unique:customers,email|unique:mechanics,email|unique:admins,email,' . $admin->id,
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ]
         ]);
-        
+
         if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         } else {
             unset($validated['password']);
         }
-        
+
         $admin->update($validated);
-        
+
         return redirect()->route('admin.admins.index')
             ->with('success', 'Admin updated successfully');
     }
@@ -99,8 +114,8 @@ class AdminController extends Controller
     public function destroy(Admin $admin)
     {
         $admin->delete();
-        
+
         return redirect()->route('admin.admins.index')
             ->with('success', 'Admin deleted successfully');
     }
-} 
+}

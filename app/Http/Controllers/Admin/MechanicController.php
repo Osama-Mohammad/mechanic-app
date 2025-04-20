@@ -28,7 +28,6 @@ class MechanicController extends Controller
     public function show(Mechanic $mechanic)
     {
         $mechanic->load(['serviceRequests', 'emergencyRequests', 'reviews']);
-        dd($mechanic->rating);
         return view('admin.mechanics.show', compact('mechanic'));
     }
 }

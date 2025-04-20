@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -81,18 +82,36 @@ class CustomerController extends Controller
         return view('Customer.edit', compact('customer'));
     }
 
-    public function UpdateProfile($id)
+    public function UpdateProfile(Request $request, $id)
     {
-        $validated = request()->validate([
+
+        // dd($request);
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:15|unique:customers,phone,' . $id,
             'location' => 'required|string|max:255',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
             'email' => 'required|email|unique:customers,email,' . $id . '|unique:mechanics,email|unique:admins,email',
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',
+                'confirmed',
+                'regex:/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/'
+            ]
         ]);
+
+        if (isset($validated['password'])) {
+            unset($validated['password']);
+        } else {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
         $customer = Customer::find($id);
         $customer->update($validated);
+
+
 
         return redirect('/customer/profile/' . $customer->id);
     }

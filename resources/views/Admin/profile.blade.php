@@ -9,7 +9,7 @@
                             <i class="fas fa-user-shield me-2"></i>Admin Profile
                         </h5>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body bg-dark text-white">
                         <div class="mb-3">
                             <label class="form-label">Name</label>
                             <p class="form-control bg-dark text-light">{{ $admin->name }}</p>

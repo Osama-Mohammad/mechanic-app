@@ -68,7 +68,8 @@
                                         <th>Rating:</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <span class="me-2">{{ $mechanic->rating }}</span>
+                                                <span
+                                                    class="me-2">{{ number_format($mechanic->average_rating, 1) }}</span>
                                                 <div class="text-warning">
                                                     @for ($i = 1; $i <= 5; $i++)
                                                         @if ($i <= $mechanic->average_rating)
