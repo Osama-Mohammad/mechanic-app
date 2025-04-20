@@ -30,7 +30,7 @@ return new class extends Migration
 
             $table->integer('experience');
             $table->enum('availability', ['Available', 'Busy', 'Offline'])->default('Offline');
-            $table->float('rating')->default(0);
+            // $table->float('rating')->default(0);
             $table->timestamps();
         });
     }

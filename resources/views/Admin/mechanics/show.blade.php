@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="card-body">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
@@ -61,18 +61,19 @@
                                     </tr>
                                     <tr>
                                         <th>Working Hours:</th>
-                                        <td>{{ $mechanic->start_time ?? '09:00' }} - {{ $mechanic->end_time ?? '17:00' }}</td>
+                                        <td>{{ $mechanic->start_time ?? '09:00' }} -
+                                            {{ $mechanic->end_time ?? '17:00' }}</td>
                                     </tr>
                                     <tr>
                                         <th>Rating:</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <span class="me-2">{{ number_format($mechanic->rating, 1) }}</span>
+                                                <span class="me-2">{{ $mechanic->rating }}</span>
                                                 <div class="text-warning">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        @if($i <= $mechanic->rating)
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $mechanic->average_rating)
                                                             <i class="fas fa-star"></i>
-                                                        @elseif($i <= $mechanic->rating + 0.5)
+                                                        @elseif($i <= $mechanic->average_rating + 0.5)
                                                             <i class="fas fa-star-half-alt"></i>
                                                         @else
                                                             <i class="far fa-star"></i>
@@ -124,7 +125,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Service Types -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -157,7 +158,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Service Requests Tab -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -183,16 +184,23 @@
                                             <td>{{ $request->customer->name }}</td>
                                             <td>{{ $request->serviceType->name }}</td>
                                             <td>
-                                                <span class="badge bg-{{ $request->status == 'completed' ? 'success' : 
-                                                    ($request->status == 'canceled' ? 'danger' : 
-                                                    ($request->status == 'inprogress' ? 'primary' : 
-                                                    ($request->status == 'accepted' ? 'info' : 'warning'))) }}">
+                                                <span
+                                                    class="badge bg-{{ $request->status == 'completed'
+                                                        ? 'success'
+                                                        : ($request->status == 'canceled'
+                                                            ? 'danger'
+                                                            : ($request->status == 'inprogress'
+                                                                ? 'primary'
+                                                                : ($request->status == 'accepted'
+                                                                    ? 'info'
+                                                                    : 'warning'))) }}">
                                                     {{ ucfirst($request->status) }}
                                                 </span>
                                             </td>
                                             <td>{{ $request->created_at->format('M d, Y') }}</td>
                                             <td>
-                                                <a href="{{ route('admin.service-requests.show', $request) }}" class="btn btn-sm btn-primary">
+                                                <a href="{{ route('admin.service-requests.show', $request) }}"
+                                                    class="btn btn-sm btn-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
@@ -207,7 +215,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Emergency Requests Tab -->
                 <div class="card mb-4">
                     <div class="card-header">
@@ -233,16 +241,23 @@
                                             <td>{{ $request->customer->name }}</td>
                                             <td>{{ Str::limit($request->location, 30) }}</td>
                                             <td>
-                                                <span class="badge bg-{{ $request->status == 'completed' ? 'success' : 
-                                                    ($request->status == 'canceled' ? 'danger' : 
-                                                    ($request->status == 'inprogress' ? 'primary' : 
-                                                    ($request->status == 'accepted' ? 'info' : 'warning'))) }}">
+                                                <span
+                                                    class="badge bg-{{ $request->status == 'completed'
+                                                        ? 'success'
+                                                        : ($request->status == 'canceled'
+                                                            ? 'danger'
+                                                            : ($request->status == 'inprogress'
+                                                                ? 'primary'
+                                                                : ($request->status == 'accepted'
+                                                                    ? 'info'
+                                                                    : 'warning'))) }}">
                                                     {{ ucfirst($request->status) }}
                                                 </span>
                                             </td>
                                             <td>{{ $request->created_at->format('M d, Y') }}</td>
                                             <td>
-                                                <a href="{{ route('admin.emergency-requests.show', $request) }}" class="btn btn-sm btn-primary">
+                                                <a href="{{ route('admin.emergency-requests.show', $request) }}"
+                                                    class="btn btn-sm btn-primary">
                                                     <i class="fas fa-eye"></i>
                                                 </a>
                                             </td>
@@ -260,4 +275,4 @@
             </div>
         </div>
     </div>
-</x-layout> 
+</x-layout>
