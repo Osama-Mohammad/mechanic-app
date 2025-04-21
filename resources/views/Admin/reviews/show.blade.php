@@ -12,7 +12,7 @@
                 </a>
             </div>
             <div class="card-body">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
@@ -37,8 +37,8 @@
                                             <div class="d-flex align-items-center">
                                                 <span class="me-2">{{ $review->rating }}/5</span>
                                                 <div class="text-warning">
-                                                    @for($i = 1; $i <= 5; $i++)
-                                                        @if($i <= $review->rating)
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        @if ($i <= $review->rating)
                                                             <i class="fas fa-star"></i>
                                                         @else
                                                             <i class="far fa-star"></i>
@@ -57,6 +57,11 @@
                                         <td>{{ $review->created_at->format('M d, Y H:i') }}</td>
                                     </tr>
                                 </table>
+                                <form action="{{ route('admin.reviews.destroy', $review) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger">Delete</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -116,47 +121,53 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Service Request Info -->
-                @if($review->serviceRequest)
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Related Service Request</h5>
+                @if ($review->serviceRequest)
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Related Service Request</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <tr>
+                                    <th>Service Request ID:</th>
+                                    <td>
+                                        <a href="{{ route('admin.service-requests.show', $review->serviceRequest) }}">
+                                            {{ $review->serviceRequest->id }}
+                                        </a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Service Type:</th>
+                                    <td>{{ $review->serviceRequest->serviceType->name }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Status:</th>
+                                    <td>
+                                        <span
+                                            class="badge bg-{{ $review->serviceRequest->status == 'completed'
+                                                ? 'success'
+                                                : ($review->serviceRequest->status == 'canceled'
+                                                    ? 'danger'
+                                                    : ($review->serviceRequest->status == 'inprogress'
+                                                        ? 'primary'
+                                                        : ($review->serviceRequest->status == 'accepted'
+                                                            ? 'info'
+                                                            : 'warning'))) }}">
+                                            {{ ucfirst($review->serviceRequest->status) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Date:</th>
+                                    <td>{{ $review->serviceRequest->date }}</td>
+                                </tr>
+                            </table>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <tr>
-                                <th>Service Request ID:</th>
-                                <td>
-                                    <a href="{{ route('admin.service-requests.show', $review->serviceRequest) }}">
-                                        {{ $review->serviceRequest->id }}
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Service Type:</th>
-                                <td>{{ $review->serviceRequest->serviceType->name }}</td>
-                            </tr>
-                            <tr>
-                                <th>Status:</th>
-                                <td>
-                                    <span class="badge bg-{{ $review->serviceRequest->status == 'completed' ? 'success' : 
-                                        ($review->serviceRequest->status == 'canceled' ? 'danger' : 
-                                        ($review->serviceRequest->status == 'inprogress' ? 'primary' : 
-                                        ($review->serviceRequest->status == 'accepted' ? 'info' : 'warning'))) }}">
-                                        {{ ucfirst($review->serviceRequest->status) }}
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>Date:</th>
-                                <td>{{ $review->serviceRequest->date }}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
                 @endif
             </div>
         </div>
     </div>
-</x-layout> 
+</x-layout>

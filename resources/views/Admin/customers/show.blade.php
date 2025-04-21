@@ -52,14 +52,15 @@
                                         <td>{{ $customer->created_at->format('M d, Y H:i') }}</td>
                                     </tr>
                                 </table>
-                                <a href="{{ route('admin.customers.edit', $customer) }}">Edit</a>
-
-                                <form action="{{ route('admin.customers.destroy', $customer) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button>Delete</button>
-                                </form>
-
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('admin.customers.edit', $customer) }}"
+                                        class="btn btn-warning">Edit</a>
+                                    <form action="{{ route('admin.customers.destroy', $customer) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
 
                             </div>
                         </div>

@@ -47,6 +47,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/service-requests', [App\Http\Controllers\Admin\ServiceRequestController::class, 'index'])->name('admin.service-requests.index');
         Route::get('/service-requests/{serviceRequest}', [App\Http\Controllers\Admin\ServiceRequestController::class, 'show'])->name('admin.service-requests.show');
         Route::put('/service-requests/{serviceRequest}', [App\Http\Controllers\Admin\ServiceRequestController::class, 'update'])->name('admin.service-requests.update');
+        Route::delete('/service-requests/{serviceRequest}/delete', [App\Http\Controllers\Admin\ServiceRequestController::class, 'destroy'])->name('admin.service-requests.destroy');
+
 
         // Admin Customer Routes
         Route::get('/customers', [App\Http\Controllers\Admin\CustomerController::class, 'index'])->name('admin.customers.index');
@@ -58,15 +60,20 @@ Route::prefix('admin')->group(function () {
         // Admin Mechanic Routes
         Route::get('/mechanics', [App\Http\Controllers\Admin\MechanicController::class, 'index'])->name('admin.mechanics.index');
         Route::get('/mechanics/{mechanic}', [App\Http\Controllers\Admin\MechanicController::class, 'show'])->name('admin.mechanics.show');
+        Route::get('/mechanics/{mechanic}/edit', [App\Http\Controllers\Admin\MechanicController::class, 'edit'])->name('admin.mechanics.edit');
+        Route::put('/mechanics/{mechanic}/update', [App\Http\Controllers\Admin\MechanicController::class, 'update'])->name('admin.mechanics.update');
+        Route::delete('/mechanics/{mechanic}/delete', [App\Http\Controllers\Admin\MechanicController::class, 'destroy'])->name('admin.mechanics.destroy');
 
         // Admin Emergency Request Routes
         Route::get('/emergency-requests', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'index'])->name('admin.emergency-requests.index');
         Route::get('/emergency-requests/{emergencyRequest}', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'show'])->name('admin.emergency-requests.show');
         Route::put('/emergency-requests/{emergencyRequest}', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'update'])->name('admin.emergency-requests.update');
+        Route::delete('/emergency-requests/{emergencyRequest}/delete', [App\Http\Controllers\Admin\EmergencyRequestController::class, 'destroy'])->name('admin.emergency-requests.destroy');
 
         // Admin Review Routes
         Route::get('/reviews', [App\Http\Controllers\Admin\ReviewController::class, 'index'])->name('admin.reviews.index');
         Route::get('/reviews/{review}', [App\Http\Controllers\Admin\ReviewController::class, 'show'])->name('admin.reviews.show');
+        Route::delete('/reviews/{review}/delete', [App\Http\Controllers\Admin\ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 
         // Admin Payment Routes
         Route::get('/payments', [App\Http\Controllers\Admin\PaymentController::class, 'index'])->name('admin.payments.index');

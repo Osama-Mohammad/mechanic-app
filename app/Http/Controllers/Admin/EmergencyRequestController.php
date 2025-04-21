@@ -18,7 +18,7 @@ class EmergencyRequestController extends Controller
         $emergencyRequests = EmergencyRequest::with(['customer', 'mechanic'])
             ->latest()
             ->paginate(10);
-            
+
         return view('admin.emergency-requests.index', compact('emergencyRequests'));
     }
 
@@ -31,7 +31,7 @@ class EmergencyRequestController extends Controller
     public function show(EmergencyRequest $emergencyRequest)
     {
         $emergencyRequest->load(['customer', 'mechanic']);
-        
+
         return view('admin.emergency-requests.show', compact('emergencyRequest'));
     }
 
@@ -49,10 +49,16 @@ class EmergencyRequestController extends Controller
             'mechanic_id' => 'sometimes|exists:mechanics,id',
             'notes' => 'sometimes|nullable|string'
         ]);
-        
+
         $emergencyRequest->update($validated);
-        
+
         return redirect()->route('admin.emergency-requests.show', $emergencyRequest)
             ->with('success', 'Emergency request updated successfully');
     }
-} 
+
+    public function destroy(EmergencyRequest $emergencyRequest)
+    {
+        $emergencyRequest->delete();
+        return redirect()->route('admin.emergency-requests.index')->with('success', 'Deleted Service Request Successfully');
+    }
+}

@@ -18,7 +18,7 @@ class ReviewController extends Controller
         $reviews = Review::with(['customer', 'mechanic', 'serviceRequest'])
             ->latest()
             ->paginate(10);
-            
+
         return view('admin.reviews.index', compact('reviews'));
     }
 
@@ -31,7 +31,13 @@ class ReviewController extends Controller
     public function show(Review $review)
     {
         $review->load(['customer', 'mechanic', 'serviceRequest']);
-        
+
         return view('admin.reviews.show', compact('review'));
     }
-} 
+
+    public function destroy(Review $review)
+    {
+        $review->delete();
+        return redirect()->route('admin.reviews.index')->with('success', 'Deleted Review Successfully');
+    }
+}

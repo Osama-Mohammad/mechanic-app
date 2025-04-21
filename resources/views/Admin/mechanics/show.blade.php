@@ -85,195 +85,206 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-                        </div>
-                    </div>
+                                <div class="d-flex gap-2">
+                                    <a href="{{ route('admin.mechanics.edit', $mechanic) }}"
+                                        class="btn btn-warning">Edit</a>
 
-                    <!-- Activity Summary -->
-                    <div class="col-md-6">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <h5 class="card-title mb-0">Activity Summary</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-6">
-                                        <div class="p-3 border rounded text-center">
-                                            <h3>{{ $mechanic->serviceRequests->count() }}</h3>
-                                            <p class="mb-0">Service Requests</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="p-3 border rounded text-center">
-                                            <h3>{{ $mechanic->emergencyRequests->count() }}</h3>
-                                            <p class="mb-0">Emergency Requests</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="p-3 border rounded text-center">
-                                            <h3>{{ $mechanic->reviews->count() }}</h3>
-                                            <p class="mb-0">Reviews</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="p-3 border rounded text-center">
-                                            <h3>{{ $mechanic->serviceTypes->count() }}</h3>
-                                            <p class="mb-0">Service Types</p>
-                                        </div>
-                                    </div>
+                                    <form action="{{ route('admin.mechanics.destroy', $mechanic) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger">Delete</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Service Types -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Service Types</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($mechanic->serviceTypes as $serviceType)
-                                        <tr>
-                                            <td>{{ $serviceType->id }}</td>
-                                            <td>{{ $serviceType->name }}</td>
-                                            <td>${{ number_format($serviceType->price, 2) }}</td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="3" class="text-center">No service types found</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                <!-- Activity Summary -->
+                <div class="col-md-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Activity Summary</h5>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Service Requests Tab -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Service Requests</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Customer</th>
-                                        <th>Service Type</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($mechanic->serviceRequests as $request)
-                                        <tr>
-                                            <td>{{ $request->id }}</td>
-                                            <td>{{ $request->customer->name }}</td>
-                                            <td>{{ $request->serviceType->name }}</td>
-                                            <td>
-                                                <span
-                                                    class="badge bg-{{ $request->status == 'completed'
-                                                        ? 'success'
-                                                        : ($request->status == 'canceled'
-                                                            ? 'danger'
-                                                            : ($request->status == 'inprogress'
-                                                                ? 'primary'
-                                                                : ($request->status == 'accepted'
-                                                                    ? 'info'
-                                                                    : 'warning'))) }}">
-                                                    {{ ucfirst($request->status) }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $request->created_at->format('M d, Y') }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.service-requests.show', $request) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">No service requests found</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Emergency Requests Tab -->
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title mb-0">Emergency Requests</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Customer</th>
-                                        <th>Location</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse($mechanic->emergencyRequests as $request)
-                                        <tr>
-                                            <td>{{ $request->id }}</td>
-                                            <td>{{ $request->customer->name }}</td>
-                                            <td>{{ Str::limit($request->location, 30) }}</td>
-                                            <td>
-                                                <span
-                                                    class="badge bg-{{ $request->status == 'completed'
-                                                        ? 'success'
-                                                        : ($request->status == 'canceled'
-                                                            ? 'danger'
-                                                            : ($request->status == 'inprogress'
-                                                                ? 'primary'
-                                                                : ($request->status == 'accepted'
-                                                                    ? 'info'
-                                                                    : 'warning'))) }}">
-                                                    {{ ucfirst($request->status) }}
-                                                </span>
-                                            </td>
-                                            <td>{{ $request->created_at->format('M d, Y') }}</td>
-                                            <td>
-                                                <a href="{{ route('admin.emergency-requests.show', $request) }}"
-                                                    class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <tr>
-                                            <td colspan="6" class="text-center">No emergency requests found</td>
-                                        </tr>
-                                    @endforelse
-                                </tbody>
-                            </table>
+                        <div class="card-body">
+                            <div class="row g-4">
+                                <div class="col-6">
+                                    <div class="p-3 border rounded text-center">
+                                        <h3>{{ $mechanic->serviceRequests->count() }}</h3>
+                                        <p class="mb-0">Service Requests</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 border rounded text-center">
+                                        <h3>{{ $mechanic->emergencyRequests->count() }}</h3>
+                                        <p class="mb-0">Emergency Requests</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 border rounded text-center">
+                                        <h3>{{ $mechanic->reviews->count() }}</h3>
+                                        <p class="mb-0">Reviews</p>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-3 border rounded text-center">
+                                        <h3>{{ $mechanic->serviceTypes->count() }}</h3>
+                                        <p class="mb-0">Service Types</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Service Types -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Service Types</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($mechanic->serviceTypes as $serviceType)
+                                    <tr>
+                                        <td>{{ $serviceType->id }}</td>
+                                        <td>{{ $serviceType->name }}</td>
+                                        <td>${{ number_format($serviceType->price, 2) }}</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center">No service types found</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service Requests Tab -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Service Requests</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Service Type</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($mechanic->serviceRequests as $request)
+                                    <tr>
+                                        <td>{{ $request->id }}</td>
+                                        <td>{{ $request->customer->name }}</td>
+                                        <td>{{ $request->serviceType->name }}</td>
+                                        <td>
+                                            <span
+                                                class="badge bg-{{ $request->status == 'completed'
+                                                    ? 'success'
+                                                    : ($request->status == 'canceled'
+                                                        ? 'danger'
+                                                        : ($request->status == 'inprogress'
+                                                            ? 'primary'
+                                                            : ($request->status == 'accepted'
+                                                                ? 'info'
+                                                                : 'warning'))) }}">
+                                                {{ ucfirst($request->status) }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $request->created_at->format('M d, Y') }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.service-requests.show', $request) }}"
+                                                class="btn btn-sm btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">No service requests found</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Requests Tab -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Emergency Requests</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($mechanic->emergencyRequests as $request)
+                                    <tr>
+                                        <td>{{ $request->id }}</td>
+                                        <td>{{ $request->customer->name }}</td>
+                                        <td>{{ Str::limit($request->location, 30) }}</td>
+                                        <td>
+                                            <span
+                                                class="badge bg-{{ $request->status == 'completed'
+                                                    ? 'success'
+                                                    : ($request->status == 'canceled'
+                                                        ? 'danger'
+                                                        : ($request->status == 'inprogress'
+                                                            ? 'primary'
+                                                            : ($request->status == 'accepted'
+                                                                ? 'info'
+                                                                : 'warning'))) }}">
+                                                {{ ucfirst($request->status) }}
+                                            </span>
+                                        </td>
+                                        <td>{{ $request->created_at->format('M d, Y') }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.emergency-requests.show', $request) }}"
+                                                class="btn btn-sm btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center">No emergency requests found</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
     </div>
 </x-layout>

@@ -18,7 +18,7 @@ class ServiceRequestController extends Controller
         $serviceRequests = ServiceRequest::with(['customer', 'mechanic', 'serviceType'])
             ->latest()
             ->paginate(10);
-            
+
         return view('admin.service-requests.index', compact('serviceRequests'));
     }
 
@@ -31,7 +31,7 @@ class ServiceRequestController extends Controller
     public function show(ServiceRequest $serviceRequest)
     {
         $serviceRequest->load(['customer', 'mechanic', 'serviceType', 'payment']);
-        
+
         return view('admin.service-requests.show', compact('serviceRequest'));
     }
 
@@ -49,10 +49,16 @@ class ServiceRequestController extends Controller
             'mechanic_id' => 'sometimes|exists:mechanics,id',
             'notes' => 'sometimes|nullable|string'
         ]);
-        
+
         $serviceRequest->update($validated);
-        
+
         return redirect()->route('admin.service-requests.show', $serviceRequest)
             ->with('success', 'Service request updated successfully');
     }
-} 
+
+    public function destroy(ServiceRequest $serviceRequest)
+    {
+        $serviceRequest->delete();
+        return redirect()->route('admin.service-requests.index')->with('success', 'Deleted Service Request Successfully');
+    }
+}

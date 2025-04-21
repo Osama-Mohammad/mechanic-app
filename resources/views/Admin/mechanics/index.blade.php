@@ -9,7 +9,7 @@
                 </h3>
             </div>
             <div class="card-body">
-                @if(session('success'))
+                @if (session('success'))
                     <div class="alert alert-success">
                         {{ session('success') }}
                     </div>
@@ -40,8 +40,8 @@
                                         <div class="d-flex align-items-center">
                                             <span class="me-2">{{ number_format($mechanic->rating, 1) }}</span>
                                             <div class="text-warning">
-                                                @for($i = 1; $i <= 5; $i++)
-                                                    @if($i <= $mechanic->rating)
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= $mechanic->rating)
                                                         <i class="fas fa-star"></i>
                                                     @elseif($i <= $mechanic->rating + 0.5)
                                                         <i class="fas fa-star-half-alt"></i>
@@ -53,7 +53,8 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{ route('admin.mechanics.show', $mechanic) }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('admin.mechanics.show', $mechanic) }}"
+                                            class="btn btn-sm btn-primary">
                                             <i class="fas fa-eye"></i> View
                                         </a>
                                     </td>
@@ -65,8 +66,6 @@
                             @endforelse
                         </tbody>
                     </table>
-                </div>
-
                 <div class="mt-4">
                     {{ $mechanics->links() }}
                 </div>
